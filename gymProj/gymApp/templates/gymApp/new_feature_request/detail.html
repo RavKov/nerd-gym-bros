@@ -1,0 +1,37 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{ feature_request.title }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>{{ feature_request.title }}</h2>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td class="fw-bold">User</td>
+            <td>{{ feature_request.user|default:"Anonymous" }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Description</td>
+            <td>{{ feature_request.description }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Created at</td>
+            <td>{{ feature_request.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Status</td>
+            <td>{{ feature_request.status }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Implemented at</td>
+            <td>{{ feature_request.implemented_at|date:"Y-m-d H:i"|default:"-" }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'new_feature_request_list' %}" class="btn btn-secondary">Go back to list</a>
+    <a href="{% url 'new_feature_request_update' feature_request.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'new_feature_request_delete' feature_request.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}

@@ -1,0 +1,14 @@
+{% extends "gymApp/layout.html" %}
+{% load crispy_forms_tags %}
+
+{% block title %}{{ form.instance.title|default:"New Feature Request" }}{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-5 p-4 border border-3" >
+{% crispy form %}
+
+</div>
+
+{% endblock %}

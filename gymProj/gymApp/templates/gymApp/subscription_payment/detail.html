@@ -1,0 +1,44 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{ subscription_payment.stripe_invoice_id }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>{{ subscription_payment.stripe_invoice_id }}</h2>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td class="fw-bold">ID</td>
+            <td>{{ subscription_payment.id }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Subscription id</td>
+            <td>{{ subscription_payment.subscription.id }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Username</td>
+            <td>{{ subscription_payment.subscription.user.username }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Stripe customer id</td>
+            <td>{{ subscription_payment.subscription.stripe_customer_id }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Amount</td>
+            <td>{{ subscription_payment.amount_paid_major|floatformat:2 }} {{ subscription_payment.currency }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Paid at</td>
+            <td>{{ subscription_payment.paid_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Created at</td>
+            <td>{{ subscription_payment.created_at|date:"Y-m-d H:i" }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'subscription_payment_list' %}" class="btn btn-secondary">Go back to list</a>
+    <a href="{% url 'subscription_payment_update' subscription_payment.pk %}" class="btn btn-warning">Edit</a>
+</div>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}Confirm Delete of Workout plan{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>Are you sure you want to delete this workout plan?</h2>
+    <p>Name: <strong>{{ workout_plan.name }}</strong></p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+            <a href="{% url 'workout_plan_list' %}" class="btn btn-secondary ms-3">Cancel</a>
+
+    </form>
+</div>
+{% endblock %}

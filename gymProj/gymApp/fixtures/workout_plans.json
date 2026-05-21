@@ -1,0 +1,90 @@
+[
+  {"model": "gymApp.workoutplan", "pk": 1, "fields": {
+    "name": "Beginner Full Body Workout",
+    "description": "A workout plan designed for beginners targeting all major muscle groups.",
+    "difficulty_level": 1,
+    "created_at": "2025-10-01T00:00:00Z",
+    "updated_at": "2025-10-01T00:00:00Z"
+  }},
+  {"model": "gymApp.workoutplan", "pk": 2, "fields": {
+    "name": "Intermediate Cardio Blast",
+    "description": "A cardio-focused workout plan for intermediate fitness levels.",
+    "difficulty_level": 2,
+    "created_at": "2025-10-01T00:00:00Z",
+    "updated_at": "2025-10-01T00:00:00Z"
+  }},
+
+  {"model": "gymApp.workoutday", "pk": 1, "fields": {"workout_plan": 1, "day_number": 1, "description": "Upper body and lower body strength with core (Push-Ups, Squats, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 2, "fields": {"workout_plan": 1, "day_number": 2, "description": "Light cardio plus lower body and core (Jumping Jacks, Lunges, Bicycle Crunches, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 3, "fields": {"workout_plan": 1, "day_number": 3, "description": "Cardio and full-body strength (Treadmill Run, Kettlebell Swings, Band Rows).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 4, "fields": {"workout_plan": 1, "day_number": 4, "description": "Cardio conditioning with upper body strength (Jump Rope, Mountain Climbers, Push-Ups).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 5, "fields": {"workout_plan": 1, "day_number": 5, "description": "Lower body and back strength with core (Squats, Lunges, Pull-Ups, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 6, "fields": {"workout_plan": 1, "day_number": 6, "description": "Higher-intensity conditioning (Burpees, Jumping Jacks, Treadmill Run).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 7, "fields": {"workout_plan": 1, "day_number": 7, "description": "Core-focused finisher with light cardio (Jump Rope, Bicycle Crunches, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutday", "pk": 8, "fields": {"workout_plan": 2, "day_number": 1, "description": "Intervals + core (Treadmill Run, Jumping Jacks, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 9, "fields": {"workout_plan": 2, "day_number": 2, "description": "Cardio conditioning + push (Jump Rope, Mountain Climbers, Push-Ups).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 10, "fields": {"workout_plan": 2, "day_number": 3, "description": "HIIT + posterior chain (Burpees, Kettlebell Swings, Bicycle Crunches).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 11, "fields": {"workout_plan": 2, "day_number": 4, "description": "Tempo cardio + legs (Treadmill Run, Jump Rope, Squats).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 12, "fields": {"workout_plan": 2, "day_number": 5, "description": "Cardio ladder + pull (Mountain Climbers, Jumping Jacks, Band Rows).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 13, "fields": {"workout_plan": 2, "day_number": 6, "description": "High-intensity finisher + core (Burpees, Kettlebell Swings, Plank).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutday", "pk": 14, "fields": {"workout_plan": 2, "day_number": 7, "description": "Steady-state cardio + upper/core (Treadmill Run, Pull-Ups, Bicycle Crunches).", "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 1, "fields": {"workout_day": 1, "exercise": 1, "sets": 3, "amount": 10, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 2, "fields": {"workout_day": 1, "exercise": 2, "sets": 3, "amount": 15, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 3, "fields": {"workout_day": 1, "exercise": 3, "sets": 3, "amount": 30, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 4, "fields": {"workout_day": 2, "exercise": 4, "sets": 3, "amount": 20, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 5, "fields": {"workout_day": 2, "exercise": 6, "sets": 3, "amount": 12, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 6, "fields": {"workout_day": 2, "exercise": 8, "sets": 3, "amount": 15, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 7, "fields": {"workout_day": 2, "exercise": 3, "sets": 2, "amount": 30, "order": 4, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 8, "fields": {"workout_day": 3, "exercise": 9, "sets": 1, "amount": 15, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 9, "fields": {"workout_day": 3, "exercise": 10, "sets": 3, "amount": 12, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 10, "fields": {"workout_day": 3, "exercise": 11, "sets": 3, "amount": 12, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 11, "fields": {"workout_day": 4, "exercise": 12, "sets": 1, "amount": 10, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 12, "fields": {"workout_day": 4, "exercise": 7, "sets": 3, "amount": 20, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 13, "fields": {"workout_day": 4, "exercise": 1, "sets": 3, "amount": 8, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 14, "fields": {"workout_day": 5, "exercise": 2, "sets": 4, "amount": 12, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 15, "fields": {"workout_day": 5, "exercise": 6, "sets": 3, "amount": 10, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 16, "fields": {"workout_day": 5, "exercise": 13, "sets": 3, "amount": 6, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 17, "fields": {"workout_day": 5, "exercise": 3, "sets": 3, "amount": 45, "order": 4, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 18, "fields": {"workout_day": 6, "exercise": 5, "sets": 3, "amount": 10, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 19, "fields": {"workout_day": 6, "exercise": 4, "sets": 3, "amount": 30, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 20, "fields": {"workout_day": 6, "exercise": 9, "sets": 1, "amount": 20, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 21, "fields": {"workout_day": 7, "exercise": 12, "sets": 1, "amount": 5, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 22, "fields": {"workout_day": 7, "exercise": 8, "sets": 2, "amount": 20, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 23, "fields": {"workout_day": 7, "exercise": 3, "sets": 2, "amount": 30, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 24, "fields": {"workout_day": 8, "exercise": 9, "sets": 1, "amount": 20, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 25, "fields": {"workout_day": 8, "exercise": 4, "sets": 3, "amount": 30, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 26, "fields": {"workout_day": 8, "exercise": 3, "sets": 3, "amount": 45, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 27, "fields": {"workout_day": 9, "exercise": 12, "sets": 1, "amount": 12, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 28, "fields": {"workout_day": 9, "exercise": 7, "sets": 3, "amount": 25, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 29, "fields": {"workout_day": 9, "exercise": 1, "sets": 3, "amount": 10, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 30, "fields": {"workout_day": 10, "exercise": 5, "sets": 3, "amount": 12, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 31, "fields": {"workout_day": 10, "exercise": 10, "sets": 3, "amount": 15, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 32, "fields": {"workout_day": 10, "exercise": 8, "sets": 3, "amount": 25, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 33, "fields": {"workout_day": 11, "exercise": 9, "sets": 1, "amount": 25, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 34, "fields": {"workout_day": 11, "exercise": 12, "sets": 1, "amount": 8, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 35, "fields": {"workout_day": 11, "exercise": 2, "sets": 3, "amount": 15, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 36, "fields": {"workout_day": 12, "exercise": 7, "sets": 3, "amount": 30, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 37, "fields": {"workout_day": 12, "exercise": 4, "sets": 3, "amount": 40, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 38, "fields": {"workout_day": 12, "exercise": 11, "sets": 3, "amount": 15, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 39, "fields": {"workout_day": 13, "exercise": 5, "sets": 3, "amount": 15, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 40, "fields": {"workout_day": 13, "exercise": 10, "sets": 3, "amount": 20, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 41, "fields": {"workout_day": 13, "exercise": 3, "sets": 3, "amount": 60, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+
+  {"model": "gymApp.workoutitem", "pk": 42, "fields": {"workout_day": 14, "exercise": 9, "sets": 1, "amount": 30, "order": 1, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 43, "fields": {"workout_day": 14, "exercise": 13, "sets": 3, "amount": 8, "order": 2, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}},
+  {"model": "gymApp.workoutitem", "pk": 44, "fields": {"workout_day": 14, "exercise": 8, "sets": 2, "amount": 30, "order": 3, "created_at": "2025-10-01T00:00:00Z", "updated_at": "2025-10-01T00:00:00Z"}}
+]

@@ -1,0 +1,15 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}Delete Print Template{% endblock %}
+
+{% block content %}
+<div class="container mt-5 p-4 border border-3 border-primary" style="max-width: 720px;">
+    <h2>Delete print template</h2>
+    <p>Are you sure you want to delete <strong>{{ object.name }}</strong>?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Delete</button>
+        <a href="{% url 'gymReports:print_template_list' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}

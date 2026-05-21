@@ -1,0 +1,86 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+
+{% load static %}
+
+{% block title %}Staff List{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Staff List</h1>
+    <a href="{% url 'staff_create' %}" class="btn btn-primary mb-3">
+        {% bs_icon 'plus-circle-fill' %} <span class="ms-2">Add New Staff Member</span></a>
+
+    </div>
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search by username/name/last name/date joined">
+        </div>
+        <div class="col-md-3">
+            <select id="adminFilter" class="form-select">
+                <option value="">All admin statuses</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="activeFilter" class="form-select">
+                <option value="">All active statuses</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="staffTable" class="table">
+        <thead>
+            <tr>
+                <th class="sortable-th" scope="col">Username</th>
+                <th class="sortable-th" scope="col">Name</th>
+                <th class="sortable-th" scope="col">Last name</th>
+                <th class="sortable-th" scope="col">Created at</th>
+                <th class="sortable-th" scope="col">Is admin</th>
+                <th class="sortable-th" scope="col">Is active</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for staff_member in staff_members %}
+                    <tr>
+                        <td class="sm-name">{{ staff_member.username }}</td>
+                        <td class="sm-first-name">{{ staff_member.first_name|default:"None" }}</td>
+                        <td class="sm-last-name">{{ staff_member.last_name|default:"None" }}</td>
+                        <td class="sm-date-joined">{{ staff_member.date_joined|date:"Y-m-d H:i" }}</td>
+                        <td class="sm-admin">{{ staff_member.is_superuser }}</td>
+                        <td class="sm-active">{{ staff_member.is_active }}</td>
+                        <td>
+                            <a href="{% url 'staff_update' staff_member.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'staff_delete' staff_member.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </tr>
+            {% empty %}
+                    <tr>
+                        <td colspan="7">No staff members.</td>
+                    </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+
+<script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+<script>
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupFiltersAndSearch(
+            'staffTable',
+            [
+                ['adminFilter', 'sm-admin'],
+                ['activeFilter', 'sm-active']
+            ],
+            ['sm-name', 'sm-first-name', 'sm-last-name', 'sm-date-joined'],
+            'searchInput'
+        );
+    });
+})();
+</script>
+
+</div>
+
+{% endblock %}

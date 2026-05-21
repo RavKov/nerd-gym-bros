@@ -1,0 +1,60 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}Print Templates{% endblock %}
+
+{% block content %}
+<div class="container mt-5 p-4 border border-3 border-primary">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div>
+            <h1>Print Templates</h1>
+            <div class="text-body-secondary">Default templates can be restored per report.</div>
+        </div>
+        <a href="{% url 'gymReports:print_template_create' %}" class="btn btn-primary">Add Template</a>
+    </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Report</th>
+                <th>Name</th>
+                <th>Active</th>
+                <th>Updated</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for template in templates %}
+            <tr>
+                <td>{{ template.get_report_key_display }}</td>
+                <td>{{ template.name }}</td>
+                <td>{% if template.is_active %}Yes{% else %}No{% endif %}</td>
+                <td>{{ template.updated_at|date:"Y-m-d H:i" }}</td>
+                <td class="d-flex flex-wrap gap-2">
+                    <a class="btn btn-sm btn-outline-primary" href="{% url 'gymReports:report_docx_by_template' template.report_key template.id %}">DOCX</a>
+                    <a class="btn btn-sm btn-outline-secondary" href="{% url 'gymReports:print_template_update' template.id %}">Edit</a>
+                    <a class="btn btn-sm btn-outline-danger" href="{% url 'gymReports:print_template_delete' template.id %}">Delete</a>
+                    <a class="btn btn-sm btn-outline-success" href="{% url 'gymReports:print_template_reset' template.report_key %}">Restore default</a>
+                </td>
+            </tr>
+        {% empty %}
+            <tr>
+                <td colspan="5">No templates configured.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <hr class="my-4">
+    <div class="text-body-secondary">
+        <h5 class="text-dark">How to use print templates</h5>
+        <ol class="mb-2">
+            <li>Upload a DOCX template for a report and set it as <strong>Active</strong>.</li>
+            <li>Use placeholders like <strong>{{ '{' }}{{ '{' }} title {{ '}' }}{{ '}' }}</strong>, <strong>{{ '{' }}{{ '{' }} generated_at {{ '}' }}{{ '}' }}</strong>, and <strong>{{ '{' }}{{ '{' }} total_records {{ '}' }}{{ '}' }}</strong>.</li>
+            <li>Loop through records with <strong>{{ '{' }}% for item in records %{{ '}' }}</strong> and access fields like <strong>{{ '{' }}{{ '{' }} item.field_name {{ '}' }}{{ '}' }}</strong>.</li>
+            <li>Download the customized output from the reports page using the <strong>DOCX</strong> button.</li>
+            <li>Use <strong>Restore default</strong> to revert to the system template for a report.</li>
+        </ol>
+        <div class="small">Tip: keep templates simple (one item per section) to avoid Word layout issues on long lists.</div>
+    </div>
+</div>
+{% endblock %}

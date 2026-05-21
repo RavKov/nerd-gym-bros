@@ -1,0 +1,30 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{ form.instance.name|default:"New Print Template" }}{% endblock %}
+
+{% block content %}
+<div class="container mt-5 p-4 border border-3 border-primary" style="max-width: 720px;">
+    <h1 class="mb-4">{{ form.instance.name|default:"New Print Template" }}</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Report</label>
+            {{ form.report_key }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Name</label>
+            {{ form.name }}
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Template file (.docx)</label>
+            {{ form.template_file }}
+        </div>
+        <div class="form-check mb-4">
+            {{ form.is_active }}
+            <label class="form-check-label">Active</label>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+        <a href="{% url 'gymReports:print_template_list' %}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+</div>
+{% endblock %}

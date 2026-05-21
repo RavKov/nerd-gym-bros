@@ -1,0 +1,17 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}Confirm Toggle Active Status{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>Are you sure you want to toggle the active status of this client?</h2>
+    <p>Username: <strong>{{ client.user.username }}</strong></p>
+    <p>Current status: <strong>{{ client.user.is_active }}</strong></p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Toggle Active Status</button>
+            <a href="{% url 'client_list' %}" class="btn btn-secondary ms-3">Cancel</a>
+    </form>
+</div>
+{% endblock %}

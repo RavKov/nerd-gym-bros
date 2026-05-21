@@ -1,0 +1,8 @@
+[
+  {"model": "gymApp.bugreport", "pk": 1, "fields": {"user": 1, "title": "Błąd logowania", "description": "Po zalogowaniu czasem pojawia się pusta strona.", "created_at": "2025-10-05T08:00:00Z", "resolved_at": "2025-10-07T12:00:00Z", "screenshot": null, "resolved": true}},
+  {"model": "gymApp.bugreport", "pk": 2, "fields": {"user": 2, "title": "Brak filtrów w tabeli", "description": "Na stronie listy ćwiczeń nie działają filtry.", "created_at": "2025-10-08T09:30:00Z", "resolved_at": null, "screenshot": null, "resolved": false}},
+  {"model": "gymApp.bugreport", "pk": 3, "fields": {"user": 3, "title": "Znikające wykresy", "description": "Po odświeżeniu dashboardu wykresy się nie ładują.", "created_at": "2025-10-09T11:10:00Z", "resolved_at": null, "screenshot": null, "resolved": false}},
+  {"model": "gymApp.bugreport", "pk": 4, "fields": {"user": 4, "title": "Błąd 500 przy eksporcie PDF", "description": "Eksport raportu do PDF kończy się błędem serwera.", "created_at": "2025-10-10T14:00:00Z", "resolved_at": "2025-10-11T09:00:00Z", "screenshot": null, "resolved": true}},
+  {"model": "gymApp.bugreport", "pk": 5, "fields": {"user": 5, "title": "Nie działa zmiana hasła", "description": "Formularz resetu hasła zwraca błąd walidacji.", "created_at": "2025-10-12T10:45:00Z", "resolved_at": null, "screenshot": null, "resolved": false}},
+  {"model": "gymApp.bugreport", "pk": 6, "fields": {"user": null, "title": "Niedostępna strona raportów", "description": "Strona /reports/ czasem zwraca 403.", "created_at": "2025-10-14T16:20:00Z", "resolved_at": null, "screenshot": null, "resolved": false}}
+]

@@ -1,0 +1,75 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block title %}Workout plan List{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Workout plan List</h1>
+    <a href="{% url 'workout_plan_create' %}" class="btn btn-primary mb-3">
+        {% bs_icon 'plus-circle-fill' %} <span class="ms-2">Add New Workout Plan</span></a>
+
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search">
+        </div>
+        <div class="col-md-3">
+            <select id="difficultyFilter" class="form-select">
+                <option value="">All difficulties</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="workoutPlanTable" class="table">
+        <thead>
+            <tr>
+                <th class="sortable-th" scope="col">Name</th>
+                <th class="sortable-th" scope="col">Description</th>
+                <th class="sortable-th" scope="col">Created At</th>
+                <th class="sortable-th" scope="col">Updated At</th>
+                <th class="sortable-th" scope="col">Difficulty</th>
+                <th class="sortable-th" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for workout_plan in workout_plans %}
+                    <tr>
+                        <td class="wp-name">{{ workout_plan.name }}</td>
+                        <td class="wp-desc">{{ workout_plan.description|truncatewords:20 }}</td>
+                        <td class="wp-created">{{ workout_plan.created_at|date:"Y-m-d H:i" }}</td>
+                        <td class="wp-updated">{{ workout_plan.updated_at|date:"Y-m-d H:i" }}</td>
+                        <td class="wp-diff">{{ workout_plan.difficulty_level.name }}</td>
+                        <td>
+                            <a href="{% url 'workout_plan_update' workout_plan.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'workout_plan_delete' workout_plan.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+            {% empty %}
+                    <tr>
+                        <td colspan="6">No workout plans.</td>
+                    </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+
+<script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+<script>
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupFiltersAndSearch(
+            'workoutPlanTable',
+            [
+                ['difficultyFilter', 'wp-diff']
+            ],
+            ['wp-name', 'wp-desc', 'wp-created', 'wp-updated'],
+            'searchInput'
+        );
+    });
+})();
+</script>
+</div>
+
+{% endblock %}

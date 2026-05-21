@@ -1,0 +1,19 @@
+[
+  {"model": "gymApp.difficultylevel", "pk": 1, "fields": {"name": "Beginner"}},
+  {"model": "gymApp.difficultylevel", "pk": 2, "fields": {"name": "Intermediate"}},
+  {"model": "gymApp.difficultylevel", "pk": 3, "fields": {"name": "Advanced"}},
+
+  {"model": "gymApp.exercisetype", "pk": 1, "fields": {"name": "Cardio"}},
+  {"model": "gymApp.exercisetype", "pk": 2, "fields": {"name": "Strength"}},
+  {"model": "gymApp.exercisetype", "pk": 3, "fields": {"name": "Flexibility"}},
+  {"model": "gymApp.exercisetype", "pk": 4, "fields": {"name": "Balance"}},
+
+  {"model": "gymApp.equipment", "pk": 1, "fields": {"name": "Dumbbell"}},
+  {"model": "gymApp.equipment", "pk": 2, "fields": {"name": "Barbell"}},
+  {"model": "gymApp.equipment", "pk": 3, "fields": {"name": "Kettlebell"}},
+  {"model": "gymApp.equipment", "pk": 4, "fields": {"name": "Resistance Bands"}},
+  {"model": "gymApp.equipment", "pk": 5, "fields": {"name": "Treadmill"}},
+  {"model": "gymApp.equipment", "pk": 6, "fields": {"name": "Exercise Mat"}},
+  {"model": "gymApp.equipment", "pk": 7, "fields": {"name": "Pull-Up Bar"}},
+  {"model": "gymApp.equipment", "pk": 8, "fields": {"name": "Jump Rope"}}
+]

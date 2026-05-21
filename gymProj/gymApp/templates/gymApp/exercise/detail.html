@@ -1,0 +1,55 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{exercise.name}}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>{{ exercise.name }} details</h2>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td class="fw-bold">Description</td>
+            <td>{{ exercise.description }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Difficulty Level</td>
+            <td>{{ exercise.difficulty_level.name }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Type</td>
+            <td>{{ exercise.exercise_type.name }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Equipment</td>
+            <td>
+                <ul class="list-unstyled">
+                {% for equipment in exercise.equipments.all %}
+                    
+                    <li>{{ equipment.name }}</li>
+                {% empty %}
+                    <p>No equipment required.</p>
+                {% endfor %}
+                </ul>
+            </td>
+
+        </tr>
+        <tr>
+            <td class="fw-bold">Thumbnail</td>
+            <td>
+                {% if exercise.thumbnail %}
+                    <img src="{{ exercise.thumbnail.url }}" alt="{{ exercise.name }} Thumbnail" style="max-width: 200px; height: auto;">
+                {% else %}
+                    No thumbnail available.
+                {% endif %}
+            </td>
+        </tr>
+    </table>
+
+    </table>
+    
+    <a href="{% url 'exercise_list' %}" class="btn btn-secondary">Go back to list</a>
+    <a href="{% url 'exercise_update' exercise.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'exercise_delete' exercise.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}

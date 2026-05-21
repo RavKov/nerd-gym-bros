@@ -1,0 +1,41 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{ gym.name }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>{{ gym.name }} details</h2>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td class="fw-bold">Address</td>
+            <td>{{ gym.address }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Contact Email</td>
+            <td>{{ gym.contact_email }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Contact Phone</td>
+            <td>{{ gym.contact_phone }}</td>
+        </tr>
+        <tr>
+            <td class="fw-bold">Equipment</td>
+            <td>
+                <ul class="list-unstyled">
+                {% for equipment in gym.equipments.all %}
+                    <li>{{ equipment.name }}</li>
+                {% empty %}
+                    <p>No equipment listed.</p>
+                {% endfor %}
+                </ul>
+            </td>
+        </tr>
+    </table>
+
+    <a href="{% url 'gym_list' %}" class="btn btn-secondary">Go back to list</a>
+    <a href="{% url 'gym_update' gym.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'gym_delete' gym.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}

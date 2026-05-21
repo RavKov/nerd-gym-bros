@@ -1,0 +1,137 @@
+[
+  {
+    "model": "gymApp.address",
+    "pk": 1,
+    "fields": {
+      "street": "ul. Marszałkowska 1",
+      "city": "Warszawa",
+      "state": "Mazowieckie",
+      "postal_code": "00-001",
+      "country": "Poland",
+      "latitude": 52.229676,
+      "longitude": 21.012229
+    }
+  },
+  {
+    "model": "gymApp.address",
+    "pk": 2,
+    "fields": {
+      "street": "ul. Długa 10",
+      "city": "Kraków",
+      "state": "Małopolskie",
+      "postal_code": "31-147",
+      "country": "Poland",
+      "latitude": 50.061947,
+      "longitude": 19.936856
+    }
+  },
+  {
+    "model": "gymApp.address",
+    "pk": 3,
+    "fields": {
+      "street": "ul. Grunwaldzka 120",
+      "city": "Gdańsk",
+      "state": "Pomorskie",
+      "postal_code": "80-244",
+      "country": "Poland",
+      "latitude": 54.372158,
+      "longitude": 18.638306
+    }
+  },
+  {
+    "model": "gymApp.address",
+    "pk": 4,
+    "fields": {
+      "street": "ul. Piotrkowska 50",
+      "city": "Łódź",
+      "state": "Łódzkie",
+      "postal_code": "90-001",
+      "country": "Poland",
+      "latitude": 51.759248,
+      "longitude": 19.455983
+    }
+  },
+  {
+    "model": "gymApp.address",
+    "pk": 5,
+    "fields": {
+      "street": "ul. Świdnicka 15",
+      "city": "Wrocław",
+      "state": "Dolnośląskie",
+      "postal_code": "50-066",
+      "country": "Poland",
+      "latitude": 51.107883,
+      "longitude": 17.038538
+    }
+  },
+
+  {
+    "model": "gymApp.gym",
+    "pk": 1,
+    "fields": {
+      "name": "Iron District Warsaw",
+      "address": 1,
+      "contact_email": "warsaw@irondistrict.example",
+      "contact_phone": "+48 22 000 00 01",
+      "equipments": [1, 2, 3],
+        "created_at": "2025-10-02T10:00:00Z",
+        "updated_at": "2025-10-02T10:00:00Z"
+    }
+  },
+  {
+    "model": "gymApp.gym",
+    "pk": 2,
+    "fields": {
+      "name": "Old Town Strength Kraków",
+      "address": 2,
+      "contact_email": "krakow@oldtowngym.example",
+      "contact_phone": "+48 12 000 00 02",
+      "equipments": [1, 2],
+              "created_at": "2025-10-02T10:00:00Z",
+            "updated_at": "2025-10-02T10:00:00Z"
+
+    }
+  },
+  {
+    "model": "gymApp.gym",
+    "pk": 3,
+    "fields": {
+      "name": "Baltic Barbell Gdańsk",
+      "address": 3,
+      "contact_email": "gdansk@balticbarbell.example",
+      "contact_phone": "+48 58 000 00 03",
+      "equipments": [4, 5],
+        "created_at": "2025-10-02T10:00:00Z",
+        "updated_at": "2025-10-02T10:00:00Z"
+    }
+
+  },
+  {
+    "model": "gymApp.gym",
+    "pk": 4,
+    "fields": {
+      "name": "Piotrkowska Performance Łódź",
+      "address": 4,
+      "contact_email": "lodz@piotrkowskaperf.example",
+      "contact_phone": "+48 42 000 00 04",
+      "equipments": [],
+    "created_at": "2025-10-02T10:00:00Z",
+    "updated_at": "2025-10-02T10:00:00Z"
+
+    }
+  },
+  {
+    "model": "gymApp.gym",
+    "pk": 5,
+    "fields": {
+      "name": "Wroclaw Fitness Lab",
+      "address": 5,
+      "contact_email": "wroclaw@fitnesslab.example",
+      "contact_phone": "+48 71 000 00 05",
+      "equipments": [1, 2, 4, 5],
+              "created_at": "2025-10-02T10:00:00Z",
+            "updated_at": "2025-10-02T10:00:00Z"
+
+    }
+  }
+]

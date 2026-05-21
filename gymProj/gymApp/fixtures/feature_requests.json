@@ -1,0 +1,8 @@
+[
+  {"model": "gymApp.newfeaturerequest", "pk": 1, "fields": {"user": 1, "title": "Tryb ciemny", "description": "Chciałabym możliwość przełączenia na dark mode.", "created_at": "2025-10-06T09:00:00Z", "implemented_at": null, "status": "pending"}},
+  {"model": "gymApp.newfeaturerequest", "pk": 2, "fields": {"user": 2, "title": "Integracja z Apple Health", "description": "Dodajcie eksport treningów do Apple Health.", "created_at": "2025-10-08T12:00:00Z", "implemented_at": null, "status": "accepted"}},
+  {"model": "gymApp.newfeaturerequest", "pk": 3, "fields": {"user": 3, "title": "Powiadomienia email", "description": "Przypomnienia o treningach na email.", "created_at": "2025-10-10T15:30:00Z", "implemented_at": null, "status": "pending"}},
+  {"model": "gymApp.newfeaturerequest", "pk": 4, "fields": {"user": 4, "title": "Eksport CSV", "description": "Możliwość eksportu raportów do CSV.", "created_at": "2025-10-12T10:20:00Z", "implemented_at": null, "status": "rejected"}},
+  {"model": "gymApp.newfeaturerequest", "pk": 5, "fields": {"user": 5, "title": "Nowe szablony DOCX", "description": "Więcej gotowych szablonów do wydruków.", "created_at": "2025-11-05T08:15:00Z", "implemented_at": "2025-12-01T12:00:00Z", "status": "implemented"}},
+  {"model": "gymApp.newfeaturerequest", "pk": 6, "fields": {"user": null, "title": "Tryb gościa", "description": "Podgląd danych bez logowania.", "created_at": "2025-11-15T13:40:00Z", "implemented_at": null, "status": "pending"}}
+]

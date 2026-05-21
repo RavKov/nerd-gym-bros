@@ -1,0 +1,77 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+
+{% block title %}Subscription Payments{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Subscription Payments</h1>
+        <a href="{% url 'subscription_payment_create' %}" class="btn btn-primary mb-3">
+            {% bs_icon 'plus-circle-fill' %}
+            <span class="ms-2">Add New Payment</span>
+        </a>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search">
+        </div>
+        <div class="col-md-3">
+            <select id="subscriptionStatusFilter" class="form-select">
+                <option value="">All statuses</option>
+            </select>
+        </div>
+    </div>
+
+    <table id="subscriptionPaymentsTable" class="table">
+        <thead>
+            <tr>
+                <th scope="col">Stripe Invoice Id</th>
+                <th scope="col">Subscription status</th>
+                <th scope="col">Username </th>
+                <th scope="col">Amount</th>
+                <th scope="col">Paid At</th>
+                <th scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+    {% for payment in subscription_payments %}
+            <tr>
+                <td class="sub-stripe-invoice-id">{{ payment.stripe_invoice_id }}</td>
+                <td class="sub-subscription-status">{{ payment.subscription.status }}</td>
+                <td class="sub-username">{{ payment.subscription.user.username }}</td>
+                <td class="sub-amount">{{ payment.amount_paid_major|floatformat:2 }} {{ payment.currency }}</td>
+                <td class="sub-paid-at">{{ payment.paid_at|date:"Y-m-d H:i" }}</td>
+                <td>
+                    <a href="{% url 'subscription_payment_detail' payment.pk %}" class="btn btn-info btn-sm">See details</a>
+                    <a href="{% url 'subscription_payment_update' payment.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                </td>
+            </tr>
+    {% empty %}
+            <tr>
+                <td colspan="6">No payments.</td>
+            </tr>
+    {% endfor %}
+        </tbody>
+    </table>
+
+    <script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+    <script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFiltersAndSearch(
+                'subscriptionPaymentsTable',
+                [
+                    ['subscriptionStatusFilter', 'sub-subscription-status']
+                ],
+                ['sub-stripe-invoice-id', 'sub-username'],
+                'searchInput'
+            );
+        });
+    })();
+    </script>
+</div>
+
+{% endblock %}

@@ -1,0 +1,12 @@
+[
+  {"model": "gymApp.clientprofile", "pk": 1, "fields": {"user": 1, "subscription_plan": 2, "active_workout_plan": 1, "age": 27, "weight": 62.5, "height": 168, "goals": "Improve endurance and core strength", "verified": true, "stripe_customer_id": "cus_0001"}},
+  {"model": "gymApp.clientprofile", "pk": 2, "fields": {"user": 2, "subscription_plan": 2, "active_workout_plan": 1, "age": 31, "weight": 78.2, "height": 180, "goals": "Build lean muscle", "verified": true, "stripe_customer_id": "cus_0002"}},
+  {"model": "gymApp.clientprofile", "pk": 3, "fields": {"user": 3, "subscription_plan": 1, "active_workout_plan": 2, "age": 24, "weight": 55.0, "height": 165, "goals": "Consistency and mobility", "verified": false, "stripe_customer_id": "cus_0003"}},
+  {"model": "gymApp.clientprofile", "pk": 4, "fields": {"user": 4, "subscription_plan": 2, "active_workout_plan": 2, "age": 29, "weight": 90.0, "height": 188, "goals": "Cardio conditioning", "verified": true, "stripe_customer_id": "cus_0004"}},
+  {"model": "gymApp.clientprofile", "pk": 5, "fields": {"user": 5, "subscription_plan": 1, "active_workout_plan": 1, "age": 22, "weight": 60.0, "height": 170, "goals": "General fitness", "verified": false, "stripe_customer_id": "cus_0005"}},
+  {"model": "gymApp.clientprofile", "pk": 6, "fields": {"user": 6, "subscription_plan": 2, "active_workout_plan": 2, "age": 35, "weight": 82.0, "height": 176, "goals": "Lose 5kg and improve stamina", "verified": true, "stripe_customer_id": "cus_0006"}},
+  {"model": "gymApp.clientprofile", "pk": 7, "fields": {"user": 7, "subscription_plan": 1, "active_workout_plan": 1, "age": 28, "weight": 66.0, "height": 172, "goals": "Strength baseline", "verified": true, "stripe_customer_id": "cus_0007"}},
+  {"model": "gymApp.clientprofile", "pk": 8, "fields": {"user": 8, "subscription_plan": 2, "active_workout_plan": 2, "age": 33, "weight": 74.0, "height": 178, "goals": "Improve VO2 max", "verified": true, "stripe_customer_id": "cus_0008"}},
+  {"model": "gymApp.clientprofile", "pk": 9, "fields": {"user": 9, "subscription_plan": 1, "active_workout_plan": 1, "age": 26, "weight": 58.0, "height": 164, "goals": "Flexibility and core", "verified": false, "stripe_customer_id": "cus_0009"}},
+  {"model": "gymApp.clientprofile", "pk": 10, "fields": {"user": 10, "subscription_plan": 2, "active_workout_plan": 2, "age": 38, "weight": 85.0, "height": 182, "goals": "Endurance + strength", "verified": true, "stripe_customer_id": "cus_0010"}}
+]

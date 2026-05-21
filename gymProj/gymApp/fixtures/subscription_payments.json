@@ -1,0 +1,23 @@
+[
+  {"model": "gymApp.subscriptionpayment", "pk": 1, "fields": {"stripe_invoice_id": "in_0001", "subscription": 1, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-10-06T10:00:00Z", "created_at": "2025-10-06T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 2, "fields": {"stripe_invoice_id": "in_0002", "subscription": 2, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-10-11T10:00:00Z", "created_at": "2025-10-11T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 3, "fields": {"stripe_invoice_id": "in_0003", "subscription": 3, "amount_paid": 0, "currency": "usd", "paid_at": "2025-10-16T10:00:00Z", "created_at": "2025-10-16T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 4, "fields": {"stripe_invoice_id": "in_0004", "subscription": 4, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-10-21T10:00:00Z", "created_at": "2025-10-21T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 5, "fields": {"stripe_invoice_id": "in_0005", "subscription": 5, "amount_paid": 0, "currency": "usd", "paid_at": "2025-11-01T10:00:00Z", "created_at": "2025-11-01T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 6, "fields": {"stripe_invoice_id": "in_0006", "subscription": 6, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-11-06T10:00:00Z", "created_at": "2025-11-06T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 7, "fields": {"stripe_invoice_id": "in_0007", "subscription": 7, "amount_paid": 0, "currency": "usd", "paid_at": "2025-11-11T10:00:00Z", "created_at": "2025-11-11T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 8, "fields": {"stripe_invoice_id": "in_0008", "subscription": 8, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-11-16T10:00:00Z", "created_at": "2025-11-16T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 9, "fields": {"stripe_invoice_id": "in_0009", "subscription": 9, "amount_paid": 0, "currency": "usd", "paid_at": "2025-12-02T10:00:00Z", "created_at": "2025-12-02T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 10, "fields": {"stripe_invoice_id": "in_0010", "subscription": 10, "amount_paid": 1999, "currency": "usd", "paid_at": "2026-01-06T10:00:00Z", "created_at": "2026-01-06T10:00:00Z"}},
+
+  {"model": "gymApp.subscriptionpayment", "pk": 11, "fields": {"stripe_invoice_id": "in_0011", "subscription": 1, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-11-05T10:00:00Z", "created_at": "2025-11-05T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 12, "fields": {"stripe_invoice_id": "in_0012", "subscription": 2, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-11-10T10:00:00Z", "created_at": "2025-11-10T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 13, "fields": {"stripe_invoice_id": "in_0013", "subscription": 4, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-11-20T10:00:00Z", "created_at": "2025-11-20T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 14, "fields": {"stripe_invoice_id": "in_0014", "subscription": 6, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-12-05T10:00:00Z", "created_at": "2025-12-05T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 15, "fields": {"stripe_invoice_id": "in_0015", "subscription": 8, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-12-15T10:00:00Z", "created_at": "2025-12-15T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 16, "fields": {"stripe_invoice_id": "in_0016", "subscription": 10, "amount_paid": 1999, "currency": "usd", "paid_at": "2026-02-05T10:00:00Z", "created_at": "2026-02-05T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 17, "fields": {"stripe_invoice_id": "in_0017", "subscription": 3, "amount_paid": 0, "currency": "usd", "paid_at": "2025-11-15T10:00:00Z", "created_at": "2025-11-15T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 18, "fields": {"stripe_invoice_id": "in_0018", "subscription": 7, "amount_paid": 0, "currency": "usd", "paid_at": "2025-12-10T10:00:00Z", "created_at": "2025-12-10T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 19, "fields": {"stripe_invoice_id": "in_0019", "subscription": 9, "amount_paid": 0, "currency": "usd", "paid_at": "2026-01-01T10:00:00Z", "created_at": "2026-01-01T10:00:00Z"}},
+  {"model": "gymApp.subscriptionpayment", "pk": 20, "fields": {"stripe_invoice_id": "in_0020", "subscription": 2, "amount_paid": 1999, "currency": "usd", "paid_at": "2025-12-10T10:00:00Z", "created_at": "2025-12-10T10:00:00Z"}}
+]

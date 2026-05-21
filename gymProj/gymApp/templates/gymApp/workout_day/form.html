@@ -1,0 +1,67 @@
+{% extends "gymApp/layout.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block title %}{{ form.instance.name|default:"New Workout Plan" }}{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-5 p-4 border border-3" >
+{% crispy form %}
+{% if form.errors %}
+    <div class="alert alert-danger mt-3">
+        <strong>Please correct the errors below:</strong>
+        <ul>
+        {% for field in form %}
+            {% for error in field.errors %}
+                <li>{{ field.label }}: {{ error }}</li>
+            {% endfor %}
+        {% endfor %}
+        {% for error in form.non_field_errors %}
+            <li>{{ error }}</li>
+        {% endfor %}
+        </ul>
+    </div>
+{% endif %}
+</div>
+
+{% if form.instance.pk %}
+<div class="container mt-3 p-4 border border-3">
+    <div class="row">
+        <div class="col-md-6">
+            {% crispy workout_item_form %}
+        </div>
+        <div class="col-md-6 d-flex">
+        <ul id="workout-items" class="list-group ">
+
+        <h4>Workout Items (drag and drop to reorder)</h4>
+        {% for workout_item in workout_items %}
+            <li class="list-group-item d-flex align-items-center" data-id="{{ workout_item.pk }}" data-order="{{ workout_item.order }}">
+                <span class="handle">☰</span>
+                <form class="ms-3"action="{% url 'workout_item_delete' workout_item.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">{% bs_icon "trash" %}</button>
+                </form>
+
+                <span class="ms-3">{{ workout_item }}</span>
+            </li>
+        {% endfor %}
+        </ul>
+        </div>
+
+    </div>
+
+
+</div>
+{% endif %}
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script src="{% static 'scripts/item_reorder.js' %}"></script>
+<script>
+    const sortable = createItemReorderSortable("workout-items", "li[data-id]", ".handle", "{% url 'workout_item_reorder' %}");
+</script>
+
+{% endblock %}

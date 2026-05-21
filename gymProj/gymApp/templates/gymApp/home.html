@@ -1,0 +1,228 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3 border-primary">
+	<div class="d-flex justify-content-between align-items-center mb-4">
+		<div>
+			<h1 class="mt-2">Dashboard</h1>
+			<p class="lead mb-0">Quick overview of the gym operations.</p>
+		</div>
+	</div>
+
+	<div class="row g-3 mb-4">
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Gyms</div>
+					<div class="fs-4 fw-bold">{{ stats.gyms }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Clients</div>
+					<div class="fs-4 fw-bold">{{ stats.clients }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Active Subscriptions</div>
+					<div class="fs-4 fw-bold">{{ stats.active_subscriptions }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Payments</div>
+					<div class="fs-4 fw-bold">{{ stats.payments }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row g-3 mb-4">
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Exercises</div>
+					<div class="fs-4 fw-bold">{{ stats.exercises }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Workout Plans</div>
+					<div class="fs-4 fw-bold">{{ stats.workout_plans }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Bug Reports</div>
+					<div class="fs-4 fw-bold">{{ stats.bug_reports }}</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-md-3">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<div class="text-muted">Feature Requests</div>
+					<div class="fs-4 fw-bold">{{ stats.feature_requests }}</div>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="row g-3">
+		<div class="col-lg-7">
+			<div class="card shadow-sm h-100">
+				<div class="card-body">
+					<h5 class="card-title">Requests Trend (last 6 months)</h5>
+					<div class="position-relative" style="height: 260px;">
+						<canvas id="requestsChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-lg-5">
+			<div class="card shadow-sm h-100">
+				<div class="card-body">
+					<h5 class="card-title">Subscriptions by Status</h5>
+					<div class="position-relative" style="height: 260px;">
+						<canvas id="subscriptionsChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="col-12">
+			<div class="card shadow-sm">
+				<div class="card-body">
+					<h5 class="card-title">Payments Total (last 6 months)</h5>
+					<div class="position-relative" style="height: 220px;">
+						<canvas id="paymentsChart"></canvas>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+{{ month_labels|json_script:"month-labels" }}
+{{ bug_series|json_script:"bug-series" }}
+{{ feature_series|json_script:"feature-series" }}
+{{ subscription_series|json_script:"subscription-series" }}
+{{ payment_series|json_script:"payment-series" }}
+{{ status_labels|json_script:"status-labels" }}
+{{ status_values|json_script:"status-values" }}
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+	(function() {
+		const monthLabels = JSON.parse(document.getElementById('month-labels').textContent);
+		const bugSeries = JSON.parse(document.getElementById('bug-series').textContent);
+		const featureSeries = JSON.parse(document.getElementById('feature-series').textContent);
+		const subscriptionSeries = JSON.parse(document.getElementById('subscription-series').textContent);
+		const paymentSeries = JSON.parse(document.getElementById('payment-series').textContent);
+		const statusLabels = JSON.parse(document.getElementById('status-labels').textContent);
+		const statusValues = JSON.parse(document.getElementById('status-values').textContent);
+
+		new Chart(document.getElementById('requestsChart'), {
+			type: 'line',
+			data: {
+				labels: monthLabels,
+				datasets: [
+					{
+						label: 'Bug reports',
+						data: bugSeries,
+						borderColor: 'rgba(220, 53, 69, 1)',
+						backgroundColor: 'rgba(220, 53, 69, 0.15)',
+						tension: 0.3,
+						fill: true
+					},
+					{
+						label: 'Feature requests',
+						data: featureSeries,
+						borderColor: 'rgba(13, 110, 253, 1)',
+						backgroundColor: 'rgba(13, 110, 253, 0.15)',
+						tension: 0.3,
+						fill: true
+					},
+					{
+						label: 'New subscriptions',
+						data: subscriptionSeries,
+						borderColor: 'rgba(25, 135, 84, 1)',
+						backgroundColor: 'rgba(25, 135, 84, 0.15)',
+						tension: 0.3,
+						fill: true
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: { position: 'bottom' }
+				}
+			}
+		});
+
+		new Chart(document.getElementById('subscriptionsChart'), {
+			type: 'doughnut',
+			data: {
+				labels: statusLabels,
+				datasets: [{
+					data: statusValues,
+					backgroundColor: [
+						'rgba(13, 110, 253, 0.8)',
+						'rgba(25, 135, 84, 0.8)',
+						'rgba(255, 193, 7, 0.8)',
+						'rgba(220, 53, 69, 0.8)',
+						'rgba(108, 117, 125, 0.8)'
+					]
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: { position: 'bottom' }
+				}
+			}
+		});
+
+		new Chart(document.getElementById('paymentsChart'), {
+			type: 'bar',
+			data: {
+				labels: monthLabels,
+				datasets: [{
+					label: 'Payments (major units)',
+					data: paymentSeries,
+					backgroundColor: 'rgba(13, 110, 253, 0.5)',
+					borderColor: 'rgba(13, 110, 253, 1)',
+					borderWidth: 1
+				}]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				plugins: {
+					legend: { position: 'bottom' }
+				},
+				scales: {
+					y: { beginAtZero: true }
+				}
+			}
+		});
+	})();
+</script>
+
+{% endblock %}

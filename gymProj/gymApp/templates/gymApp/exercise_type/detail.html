@@ -1,0 +1,21 @@
+{% extends "gymApp/layout.html" %}
+
+{% block title %}{{ exercise_type.name }}{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <h2>{{ exercise_type.name }}</h2>
+
+    <table class="table table-bordered table-striped">
+        <tr>
+            <td class="fw-bold">Name</td>
+            <td>{{ exercise_type.name }}</td>
+        </tr>
+    </table>
+
+    <a href="{% url 'exercise_type_list' %}" class="btn btn-secondary">Go back to list</a>
+    <a href="{% url 'exercise_type_update' exercise_type.pk %}" class="btn btn-warning">Edit</a>
+    <a href="{% url 'exercise_type_delete' exercise_type.pk %}" class="btn btn-danger">Delete</a>
+</div>
+{% endblock %}

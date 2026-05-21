@@ -1,0 +1,57 @@
+{% extends "gymApp/layout.html" %}
+{% load crispy_forms_tags %}
+{% load bootstrap_icons %}
+{% load static %}
+
+{% block title %}{{ form.instance.name|default:"New Workout Plan" }}{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-5 p-4 border border-3" >
+{% crispy form %}
+
+</div>
+
+{% if form.instance.pk %}
+<div class="container mt-3 p-4 border border-3">
+    <form class="mb-4" action="{% url 'workout_day_create' %}" method="get">
+        {% csrf_token %}
+        <input type="hidden" name="workout_plan" value="{{ form.instance.pk }}">
+        <button type="submit" class="btn btn-primary">{% bs_icon 'plus-circle-fill' %} <span class="ms-2">Add New Workout Day</span></button>
+    </form>
+    <div class="d-flex">
+        <ul id="workout-days" class="list-group ">
+
+        <h4>Workout Days (drag and drop to reorder)</h4>
+        {% for workout_day in workout_days %}
+            <li class="list-group-item d-flex align-items-center" data-id="{{ workout_day.pk }}" data-order="{{ workout_day.day_number }}">
+                <span class="handle">☰</span>
+                <form class="ms-3"action="{% url 'workout_day_delete' workout_day.pk %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger btn-sm">{% bs_icon "trash" %}</button>
+                </form>
+                <form class="ms-2" action="{% url 'workout_day_update' workout_day.pk %}" method="get">
+                    <button type="submit" class="btn btn-secondary btn-sm">{% bs_icon "pencil" %}</button>
+                </form>
+                <span class="ms-3">Day 
+                    <span class="day_number_value">{{ workout_day.day_number }}</span>. [{{ workout_day.description }}]</span>
+            </li>
+        {% endfor %}
+        </ul>
+    </div>
+
+
+
+</div>
+{% endif %}
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.6/Sortable.min.js"></script>
+<script src="{% static 'scripts/item_reorder.js' %}"></script>
+<script>
+    const sortable = createItemReorderSortable("workout-days", "li[data-id]", ".handle", "{% url 'workout_day_reorder' %}");
+</script>
+
+{% endblock %}

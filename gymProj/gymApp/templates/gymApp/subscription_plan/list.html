@@ -1,0 +1,68 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block title %}Subscription Plans{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Subscription Plans</h1>
+    <a href="{% url 'subscription_plan_create' %}" class="btn btn-primary mb-3">
+        {% bs_icon 'plus-circle-fill' %} <span class="ms-2">Add New Subscription Plan</span></a>
+    </div>
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search">
+        </div>
+    </div>
+    <table id="subscriptionPlanTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th class="sortable-th" scope="col">Name</th>
+                <th class="sortable-th" scope="col">Features</th>
+                <th class="sortable-th" scope="col">Duration (days)</th>
+                <th class="sortable-th" scope="col">Price</th>
+                <th class="sortable-th" scope="col">Number of workout plans</th>
+                <th class="sortable-th" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for subscription_plan in subscription_plans %}
+                    <tr>
+                        <td class="sp-name">{{ subscription_plan.name }}</td>
+                        <td class="sp-desc">{{ subscription_plan.features|truncatewords:20 }}</td>
+                        <td class="sp-duration">{{ subscription_plan.duration_days }}</td>
+                        <td class="sp-price">{{ subscription_plan.price }}</td>
+                        <td class="sp-workout-plans">{{ subscription_plan.workout_plans.count }}</td>
+                        <td>
+                            <a href="{% url 'subscription_plan_update' subscription_plan.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                            <a href="{% url 'subscription_plan_delete' subscription_plan.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+                    </tr>
+            {% empty %}
+                    <tr>
+                        <td colspan="6">No subscription plans.</td>
+                    </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+
+<script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+<script>
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupFiltersAndSearch(
+            'subscriptionPlanTable',
+            [
+            ],
+            ['sp-name', 'sp-desc', 'sp-duration', 'sp-price', 'sp-workout-plans'],
+            'searchInput'
+        );
+    });
+})();
+</script>
+
+</div>
+
+{% endblock %}

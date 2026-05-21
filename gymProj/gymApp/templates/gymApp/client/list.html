@@ -1,0 +1,99 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block title %}Client list{% endblock %}
+
+{% block content %}
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1>Clients</h1>
+    </div> 
+
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search by username/name/last name">
+        </div>
+        <div class="col-md-3">
+            <select id="subscriptionPlanFilter" class="form-select">
+                <option value="">All subscription plans</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="activeWorkoutPlanFilter" class="form-select">
+                <option value="">All active workout plans</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="verifiedFilter" class="form-select">
+                <option value="">All verified statuses</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="activeFilter" class="form-select">
+                <option value="">All active statuses</option>
+            </select>
+        </div>
+    </div>
+    <table id="clientTable" class="table table-striped">
+        <thead>
+            <tr>
+                <th class="sortable-th" scope="col">Username</th>
+                <th class="sortable-th" scope="col">Name</th>
+                <th class="sortable-th" scope="col">Surname</th>
+                <th class="sortable-th" scope="col">Subscription plan</th>
+                <th class="sortable-th" scope="col">Active Workout plan</th>
+                <th class="sortable-th" scope="col">Is active</th>
+
+                <th class="sortable-th" scope="col">Is verified</th>
+                
+                <th class="sortable-th" scope="col">Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for client in clients %}
+                    <tr>
+                        <td class="client-username">{{ client.user.username }}</td>
+                        <td class="client-name">{{ client.user.first_name }}</td>
+                        <td class="client-surname">{{ client.user.last_name }}</td>
+                        <td class="client-subscription-plan">{{ client.subscription_plan.name }}</td>
+                        <td class="client-active-workout-plan">{% if client.active_workout_plan %}{{ client.active_workout_plan.name }}{% else %}N/A{% endif %}</td>
+                        <td class="client-is-active">{% if client.user.is_active %}Yes{% else %}No{% endif %}</td>
+
+                        <td class="client-is-verified">{% if client.verified %}Yes{% else %}No{% endif %}</td>
+                        <td>
+                            <a href="{% url 'client_toggle_active' client.pk %}" class="btn btn-secondary btn-sm">
+                                {% if client.user.is_active %}Deactivate{% else %}Activate{% endif %}
+                        </td>
+                    </tr>
+            {% empty %}
+                    <tr>
+                        <td class="text-center text-muted" colspan="9">No clients.</td>
+                    </tr>
+            {% endfor %}    
+        </tbody>
+    </table>
+
+
+<script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+<script>
+(function() {
+    document.addEventListener('DOMContentLoaded', function() {
+        setupFiltersAndSearch(
+            'clientTable',
+            [
+                ['subscriptionPlanFilter', 'client-subscription-plan'],
+                ['activeWorkoutPlanFilter', 'client-active-workout-plan'],
+                ['verifiedFilter', 'client-is-verified'],
+                ['activeFilter', 'client-is-active']
+            ],
+            ['client-username', 'client-name', 'client-surname'],
+            'searchInput'
+        );
+    });
+})();
+</script>
+
+</div>
+
+{% endblock %}

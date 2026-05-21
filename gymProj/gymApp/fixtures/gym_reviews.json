@@ -1,0 +1,12 @@
+[
+  {"model": "gymApp.gymreview", "pk": 1, "fields": {"gym": 1, "client": 1, "rating": 5, "comment": "Świetny klimat i czysty sprzęt.", "created_at": "2025-10-10T10:00:00Z", "updated_at": "2025-10-10T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 2, "fields": {"gym": 1, "client": 2, "rating": 4, "comment": "Dobre zajęcia, trochę tłoczno w godzinach szczytu.", "created_at": "2025-10-11T10:00:00Z", "updated_at": "2025-10-11T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 3, "fields": {"gym": 2, "client": 3, "rating": 5, "comment": "Bardzo pomocna obsługa i dobra lokalizacja.", "created_at": "2025-10-12T10:00:00Z", "updated_at": "2025-10-12T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 4, "fields": {"gym": 2, "client": 4, "rating": 3, "comment": "Ok, ale przydałoby się więcej sprzętu cardio.", "created_at": "2025-10-13T10:00:00Z", "updated_at": "2025-10-13T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 5, "fields": {"gym": 3, "client": 5, "rating": 4, "comment": "Dobre warunki, fajna atmosfera.", "created_at": "2025-10-14T10:00:00Z", "updated_at": "2025-10-14T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 6, "fields": {"gym": 3, "client": 6, "rating": 5, "comment": "Najlepsza siłownia w okolicy.", "created_at": "2025-10-15T10:00:00Z", "updated_at": "2025-10-15T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 7, "fields": {"gym": 4, "client": 7, "rating": 4, "comment": "Spoko miejsce, czyste szatnie.", "created_at": "2025-10-16T10:00:00Z", "updated_at": "2025-10-16T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 8, "fields": {"gym": 4, "client": 8, "rating": 5, "comment": "Nowoczesne wyposażenie i świetny personel.", "created_at": "2025-10-17T10:00:00Z", "updated_at": "2025-10-17T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 9, "fields": {"gym": 5, "client": 9, "rating": 3, "comment": "Ok na start, ale brakuje zajęć grupowych.", "created_at": "2025-10-18T10:00:00Z", "updated_at": "2025-10-18T10:00:00Z"}},
+  {"model": "gymApp.gymreview", "pk": 10, "fields": {"gym": 5, "client": 10, "rating": 4, "comment": "Dobra lokalizacja i fajne godziny otwarcia.", "created_at": "2025-10-19T10:00:00Z", "updated_at": "2025-10-19T10:00:00Z"}}
+]

@@ -1,0 +1,84 @@
+{% extends "gymApp/layout.html" %}
+{% load bootstrap_icons %}
+{% load static %}
+{% block title %}Exercise List{% endblock %}
+
+{% block content %}
+
+
+<div class="container mt-5 p-4 border border-3" >
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1>Exercise List</h1>
+        <a href="{% url 'exercise_create' %}" class="btn btn-primary mb-3">
+            {% bs_icon 'plus-circle-fill' %} 
+            <span class="ms-2">Add New Exercise</span>
+        </a>
+    </div>
+
+    <!-- Filters: search, difficulty, type -->
+    <div class="row g-3 mb-3">
+        <div class="col-md-6">
+            <input id="searchInput" type="text" class="form-control" placeholder="Search by name or description">
+        </div>
+        <div class="col-md-3">
+            <select id="difficultyFilter" class="form-select">
+                <option value="">All difficulties</option>
+            </select>
+        </div>
+        <div class="col-md-3">
+            <select id="typeFilter" class="form-select">
+                <option value="">All types</option>
+            </select>
+        </div>
+    </div>
+
+        <table id="exerciseTable" class="table">
+            <thead>
+                <tr>
+                    <th class="sortable-th" scope="col">Name</th>
+                    <th class="sortable-th" scope="col">Description</th>
+                    <th class="sortable-th" scope="col">Difficulty</th>
+                    <th class="sortable-th" scope="col">Type</th>
+                    <th scope="col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+        {% for exercise in exercises %}
+                <tr>
+                    <td class="ex-name">{{ exercise.name }}</td>
+                    <td class="ex-desc">{{ exercise.description|truncatewords:20 }}</td>
+                    <td class="ex-diff">{{ exercise.difficulty_level.name }}</td>
+                    <td class="ex-type">{{ exercise.exercise_type.name }}</td>
+                    <td>
+                        <a href="{% url 'exercise_detail' exercise.pk %}" class="btn btn-info btn-sm">See details</a>
+                        <a href="{% url 'exercise_update' exercise.pk %}" class="btn btn-warning btn-sm">Edit</a>
+                        <a href="{% url 'exercise_delete' exercise.pk %}" class="btn btn-danger btn-sm">Delete</a>
+                    </td>
+                </tr>
+        {% empty %}
+                <tr>
+                    <td colspan="5">No exercises.</td>
+                </tr>
+        {% endfor %}
+            </tbody>
+        </table>
+
+    <script src="{% static 'scripts/sort_and_filter_table.js' %}"></script>
+    <script>
+    (function() {
+        document.addEventListener('DOMContentLoaded', function() {
+            setupFiltersAndSearch(
+                'exerciseTable',
+                [
+                    ['difficultyFilter', 'ex-diff'],
+                    ['typeFilter', 'ex-type']
+                ],
+                ['ex-name', 'ex-desc'],
+                'searchInput'
+            );
+        });
+    })();
+    </script>
+</div>
+
+{% endblock %}
