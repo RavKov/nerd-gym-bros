@@ -1,15 +1,16 @@
 def grant_group_perms(sender, **kwargs):
     from django.contrib.auth.models import Group, Permission
+
     from .models import (
-        Exercise,
-        WorkoutPlan,
-        WorkoutItem,
-        SubscriptionPlan,
-        ClientProfile,
-        WorkoutDay,
-        Gym,
         BugReport,
+        ClientProfile,
+        Exercise,
+        Gym,
         NewFeatureRequest,
+        SubscriptionPlan,
+        WorkoutDay,
+        WorkoutItem,
+        WorkoutPlan,
     )
 
     permNameToModel = {

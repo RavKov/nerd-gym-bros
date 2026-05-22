@@ -1,28 +1,26 @@
 import io
-from pathlib import Path
 from decimal import Decimal
+from pathlib import Path
 
 import pandas as pd
-from django.db.models import Count, Sum, Q
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.core.files.base import ContentFile
+from django.core.files.storage import default_storage
+from django.db.models import Count, Q, Sum
 from django.http import FileResponse, Http404, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.utils import timezone
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import CreateView, DeleteView, ListView, UpdateView
-from django.conf import settings
-from django.core.files.base import ContentFile
-from django.core.files.storage import default_storage
-
+from docx import Document
+from docxtpl import DocxTemplate
 from reportlab.lib import colors
 from reportlab.lib.pagesizes import A4, landscape
-from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
+from reportlab.lib.styles import ParagraphStyle, getSampleStyleSheet
 from reportlab.pdfbase import pdfmetrics
 from reportlab.pdfbase.ttfonts import TTFont
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, HRFlowable
-from docxtpl import DocxTemplate
-from docx import Document
+from reportlab.platypus import HRFlowable, Paragraph, SimpleDocTemplate, Spacer
 
 from gymApp.models import (
     BugReport,
@@ -33,12 +31,10 @@ from gymApp.models import (
     Subscription,
     SubscriptionPayment,
     WorkoutItem,
-    WorkoutPlan,
     WorkoutPlanRun,
 )
 from gymReports.forms import PrintTemplateForm
 from gymReports.models import PrintTemplate
-
 
 DEFAULT_TEMPLATE_SPECS = {
     "gyms_directory": {
@@ -113,10 +109,8 @@ def _build_default_docx(report_key):
 def ensure_default_templates(report_key=None, force=False):
     keys = [report_key] if report_key else list(DEFAULT_TEMPLATE_SPECS.keys())
     for key in keys:
-        active_exists = PrintTemplate.objects.filter(
-            report_key=key, is_active=True
-        ).exists()
-        any_exists = PrintTemplate.objects.filter(report_key=key).exists()
+        active_exists = PrintTemplate.objects.filter(report_key=key, is_active=True).exists()
+        PrintTemplate.objects.filter(report_key=key).exists()
 
         if active_exists and not force:
             continue
@@ -137,9 +131,7 @@ def ensure_default_templates(report_key=None, force=False):
             },
         )
 
-        PrintTemplate.objects.filter(report_key=key).exclude(pk=template.pk).update(
-            is_active=False
-        )
+        PrintTemplate.objects.filter(report_key=key).exclude(pk=template.pk).update(is_active=False)
 
 
 def _to_naive(dt):
@@ -154,9 +146,7 @@ def _df_from_records(records, columns):
 
 def _export_xlsx(df, sheet_name, filename):
     output = io.BytesIO()
-    with pd.ExcelWriter(
-        output, engine="xlsxwriter", datetime_format="yyyy-mm-dd hh:mm"
-    ) as writer:
+    with pd.ExcelWriter(output, engine="xlsxwriter", datetime_format="yyyy-mm-dd hh:mm") as writer:
         df.to_excel(writer, index=False, sheet_name=sheet_name)
         workbook = writer.book
         worksheet = writer.sheets[sheet_name]
@@ -215,7 +205,7 @@ def _export_pdf(df, title, filename):
     styles["Heading4"].fontName = header_font
     styles["Heading4"].textColor = colors.HexColor("#1F4E79")
 
-    label_style = ParagraphStyle(
+    ParagraphStyle(
         "Label",
         parent=styles["Normal"],
         textColor=colors.HexColor("#1F4E79"),
@@ -231,9 +221,7 @@ def _export_pdf(df, title, filename):
             elements.append(Spacer(1, 6))
             elements.append(Paragraph(f"Item {idx + 1}", styles["Heading4"]))
             elements.append(
-                HRFlowable(
-                    width="100%", thickness=0.6, color=colors.HexColor("#D0D7DE")
-                )
+                HRFlowable(width="100%", thickness=0.6, color=colors.HexColor("#D0D7DE"))
             )
             elements.append(Spacer(1, 6))
             for col in df.columns:
@@ -268,13 +256,9 @@ def _build_exercises_catalog():
     for ex in qs:
         records.append(
             {
-                "exercise_type": getattr(
-                    ex.exercise_type, "name", str(ex.exercise_type)
-                ),
+                "exercise_type": getattr(ex.exercise_type, "name", str(ex.exercise_type)),
                 "name": ex.name,
-                "difficulty_level": getattr(
-                    ex.difficulty_level, "name", str(ex.difficulty_level)
-                ),
+                "difficulty_level": getattr(ex.difficulty_level, "name", str(ex.difficulty_level)),
                 "metabolic_equivalent": ex.metabolic_equivalent,
                 "amount_unit": ex.amount_unit,
                 "equipments": ", ".join(eq.name for eq in ex.equipments.all()),
@@ -333,9 +317,7 @@ def _build_workout_plans_full():
                 "amount": item.amount,
                 "amount_unit": ex.amount_unit,
                 "exercise_name": ex.name,
-                "exercise_type": getattr(
-                    ex.exercise_type, "name", str(ex.exercise_type)
-                ),
+                "exercise_type": getattr(ex.exercise_type, "name", str(ex.exercise_type)),
                 "exercise_difficulty": getattr(
                     ex.difficulty_level, "name", str(ex.difficulty_level)
                 ),
@@ -368,12 +350,7 @@ def _build_workout_plans_full():
 
 
 def _build_gyms_directory():
-    qs = (
-        Gym.objects.select_related("address")
-        .prefetch_related("equipments")
-        .all()
-        .order_by("name")
-    )
+    qs = Gym.objects.select_related("address").prefetch_related("equipments").all().order_by("name")
     records = []
     for gym in qs:
         addr = gym.address
@@ -408,9 +385,7 @@ def _build_gyms_directory():
 
 def _build_clients_overview():
     qs = (
-        ClientProfile.objects.select_related(
-            "user", "subscription_plan", "active_workout_plan"
-        )
+        ClientProfile.objects.select_related("user", "subscription_plan", "active_workout_plan")
         .all()
         .order_by("user__username")
     )
@@ -426,9 +401,7 @@ def _build_clients_overview():
                 "weight": client.weight,
                 "height": client.height,
                 "subscription_plan": getattr(client.subscription_plan, "name", None),
-                "active_workout_plan": getattr(
-                    client.active_workout_plan, "name", None
-                ),
+                "active_workout_plan": getattr(client.active_workout_plan, "name", None),
                 "stripe_customer_id": client.stripe_customer_id,
             }
         )
@@ -491,13 +464,9 @@ def _build_subscription_payments():
                 "invoice_id": payment.stripe_invoice_id,
                 "username": getattr(payment.subscription, "user", None)
                 and payment.subscription.user.username,
-                "subscription_id": getattr(
-                    payment.subscription, "stripe_subscription_id", None
-                ),
+                "subscription_id": getattr(payment.subscription, "stripe_subscription_id", None),
                 "customer_id": payment.customer_id,
-                "amount_major": float(
-                    Decimal(payment.amount_paid or 0) / Decimal("100")
-                ),
+                "amount_major": float(Decimal(payment.amount_paid or 0) / Decimal("100")),
                 "currency": payment.currency,
                 "paid_at": _to_naive(payment.paid_at),
                 "created_at": _to_naive(payment.created_at),
@@ -555,9 +524,7 @@ def _build_workout_plan_runs():
         WorkoutPlanRun.objects.select_related("client", "client__user", "workout_plan")
         .annotate(
             total_days=Count("day_logs", distinct=True),
-            completed_days=Count(
-                "day_logs", filter=Q(day_logs__completed=True), distinct=True
-            ),
+            completed_days=Count("day_logs", filter=Q(day_logs__completed=True), distinct=True),
         )
         .all()
         .order_by("-started_at")
@@ -608,12 +575,8 @@ def _build_exercise_usage():
         records.append(
             {
                 "exercise": ex.name,
-                "exercise_type": getattr(
-                    ex.exercise_type, "name", str(ex.exercise_type)
-                ),
-                "difficulty": getattr(
-                    ex.difficulty_level, "name", str(ex.difficulty_level)
-                ),
+                "exercise_type": getattr(ex.exercise_type, "name", str(ex.exercise_type)),
+                "difficulty": getattr(ex.difficulty_level, "name", str(ex.difficulty_level)),
                 "amount_unit": ex.amount_unit,
                 "item_count": int(ex.item_count or 0),
                 "total_sets": int(ex.total_sets or 0),
@@ -725,9 +688,7 @@ def get_report_catalog():
     categories = {}
     for report in REPORTS:
         categories.setdefault(report["category"], []).append(report)
-    return [
-        {"name": category, "reports": items} for category, items in categories.items()
-    ]
+    return [{"name": category, "reports": items} for category, items in categories.items()]
 
 
 def _get_report(report_key):

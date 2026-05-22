@@ -24,9 +24,7 @@ if not ALLOWED_HOSTS:
 _cors = os.getenv("CORS_ALLOWED_ORIGINS", "")
 CORS_ALLOWED_ORIGINS = [o.strip() for o in _cors.split(",") if o.strip()]
 if not CORS_ALLOWED_ORIGINS:
-    raise ImproperlyConfigured(
-        "CORS_ALLOWED_ORIGINS must be set when DJANGO_ENV=production."
-    )
+    raise ImproperlyConfigured("CORS_ALLOWED_ORIGINS must be set when DJANGO_ENV=production.")
 
 _csrf = os.getenv("CSRF_TRUSTED_ORIGINS", "")
 CSRF_TRUSTED_ORIGINS = [o.strip() for o in _csrf.split(",") if o.strip()]

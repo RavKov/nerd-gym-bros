@@ -1,29 +1,28 @@
+from django.contrib.auth import get_user_model
+from django.db import transaction
 from rest_framework import serializers
 
 from gymApp.models import (
-    DifficultyLevel,
-    Exercise,
-    WorkoutPlan,
-    WorkoutDay,
-    ExerciseType,
-    Equipment,
-    WorkoutPlanRun,
-    WorkoutDayLog,
-    WorkoutItemLog,
-    WorkoutSetLog,
-    Gym,
     Address,
-    WorkoutItem,
-    SubscriptionPlan,
     BugReport,
-    NewFeatureRequest,
     ClientProfile,
-    Subscription,
+    DifficultyLevel,
+    Equipment,
+    Exercise,
+    ExerciseType,
+    Gym,
     MobileTextContent,
+    NewFeatureRequest,
+    Subscription,
+    SubscriptionPlan,
+    WorkoutDay,
+    WorkoutDayLog,
+    WorkoutItem,
+    WorkoutItemLog,
+    WorkoutPlan,
+    WorkoutPlanRun,
+    WorkoutSetLog,
 )
-from django.contrib.auth import get_user_model
-from django.contrib.auth.models import User
-from django.db import transaction
 
 
 class DifficultyLevelSerializer(serializers.ModelSerializer):
@@ -130,9 +129,7 @@ class WorkoutItemLogSerializer(serializers.ModelSerializer):
 
 class WorkoutDayLogSerializer(serializers.ModelSerializer):
     item_logs = WorkoutItemLogSerializer(many=True, read_only=True)
-    description = serializers.CharField(
-        source="workout_day.description", read_only=True
-    )
+    description = serializers.CharField(source="workout_day.description", read_only=True)
     workout_day_order_number = serializers.IntegerField(
         source="workout_day.day_number", read_only=True
     )
@@ -160,12 +157,8 @@ class WorkoutItemLogDetailSerializer(serializers.ModelSerializer):
 
 class WorkoutDayDetailedLogSerializer(serializers.ModelSerializer):
     item_logs = WorkoutItemLogDetailSerializer(many=True, read_only=True)
-    description = serializers.CharField(
-        source="workout_day.description", read_only=True
-    )
-    day_number = serializers.IntegerField(
-        source="workout_day.day_number", read_only=True
-    )
+    description = serializers.CharField(source="workout_day.description", read_only=True)
+    day_number = serializers.IntegerField(source="workout_day.day_number", read_only=True)
 
     class Meta:
         model = WorkoutDayLog
@@ -279,9 +272,7 @@ class ClientProfileSerializer(serializers.ModelSerializer):
         }
 
     def _get_latest_subscription(self, obj: ClientProfile) -> Subscription | None:
-        return (
-            Subscription.objects.filter(user=obj.user).order_by("-created_at").first()
-        )
+        return Subscription.objects.filter(user=obj.user).order_by("-created_at").first()
 
     def get_subscription_start(self, obj: ClientProfile):
         sub = self._get_latest_subscription(obj)

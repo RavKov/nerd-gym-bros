@@ -1,13 +1,12 @@
 from django.db import models, transaction
+
 from .dictionaries import DifficultyLevel, Equipment
 
 
 class Exercise(models.Model):
     name = models.CharField(max_length=100)
     description = models.TextField()
-    metabolic_equivalent = (
-        models.FloatField()
-    )  # Will be used to calculate calories burned
+    metabolic_equivalent = models.FloatField()  # Will be used to calculate calories burned
     video = models.FileField(upload_to="videos/")
     thumbnail = models.ImageField(upload_to="thumbnails/")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -94,9 +93,7 @@ class WorkoutDay(models.Model):
 
 
 class WorkoutItem(models.Model):
-    workout_day = models.ForeignKey(
-        WorkoutDay, on_delete=models.CASCADE, related_name="items"
-    )
+    workout_day = models.ForeignKey(WorkoutDay, on_delete=models.CASCADE, related_name="items")
     exercise = models.ForeignKey(Exercise, on_delete=models.CASCADE)
     amount = models.IntegerField()  # e.g., number of reps or duration in minutes
     sets = models.IntegerField()  #  number of sets
@@ -105,7 +102,9 @@ class WorkoutItem(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.exercise.name}: {self.sets} sets of {self.amount} {self.exercise.amount_unit}"
+        return (
+            f"{self.exercise.name}: {self.sets} sets of {self.amount} {self.exercise.amount_unit}"
+        )
 
     class Meta:
         ordering = ["order", "id"]
@@ -135,9 +134,7 @@ class WorkoutItem(models.Model):
         wday = self.workout_day
         order_to_free = self.order
         super().delete(*args, **kwargs)
-        subsequent_items = WorkoutItem.objects.filter(
-            workout_day=wday, order__gt=order_to_free
-        )
+        subsequent_items = WorkoutItem.objects.filter(workout_day=wday, order__gt=order_to_free)
         for item in subsequent_items:
             item.order -= 1
             item.save()

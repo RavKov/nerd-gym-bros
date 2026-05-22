@@ -2,9 +2,9 @@
 Shared Django settings for all environments.
 """
 
+import os
 from datetime import timedelta
 from pathlib import Path
-import os
 
 from dotenv import find_dotenv, load_dotenv
 

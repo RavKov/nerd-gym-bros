@@ -23,11 +23,7 @@ ALLOWED_HOSTS = [
     if h.strip()
 ]
 
-_default_cors_origins = (
-    "http://localhost:8081,"
-    "http://127.0.0.1:8081,"
-    "http://10.0.2.2:8000"
-)
+_default_cors_origins = "http://localhost:8081,http://127.0.0.1:8081,http://10.0.2.2:8000"
 CORS_ALLOWED_ORIGINS = [
     o.strip()
     for o in os.getenv("CORS_ALLOWED_ORIGINS", _default_cors_origins).split(",")

@@ -1,26 +1,17 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
-    Row,
-    Column,
     Field,
+    Fieldset,
+    Layout,
+    Submit,
 )
+from django import forms
 from django.db.models import Max  # <-- add
 
-from django.forms import CheckboxSelectMultiple, CheckboxSelectMultiple
-from crispy_forms.bootstrap import PrependedText
-from crispy_bootstrap5.bootstrap5 import FloatingField
 from gymApp.models import (
-    Exercise,
-    DifficultyLevel,
-    ExerciseType,
-    Equipment,
     WorkoutDay,
-    WorkoutPlan,
 )
 
 
@@ -48,9 +39,9 @@ class WorkoutDayForm(forms.ModelForm):
             wp = self.initial.get("workout_plan")
             if wp:
                 max_day = (
-                    WorkoutDay.objects.filter(workout_plan_id=wp).aggregate(
-                        Max("day_number")
-                    )["day_number__max"]
+                    WorkoutDay.objects.filter(workout_plan_id=wp).aggregate(Max("day_number"))[
+                        "day_number__max"
+                    ]
                     or 0
                 )
                 self.fields["day_number"].initial = max_day + 1

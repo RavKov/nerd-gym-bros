@@ -1,6 +1,5 @@
 from django.db import migrations
 
-
 VIEW_SQL = """
 CREATE OR REPLACE VIEW public.v_mobile_text_content AS
 SELECT

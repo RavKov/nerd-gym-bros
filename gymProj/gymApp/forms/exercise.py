@@ -1,18 +1,18 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
-    Row,
     Column,
     Field,
+    Fieldset,
+    Layout,
+    Row,
+    Submit,
 )
-from django.forms import CheckboxSelectMultiple, CheckboxSelectMultiple
-from crispy_forms.bootstrap import PrependedText
-from crispy_bootstrap5.bootstrap5 import FloatingField
-from gymApp.models import Exercise, DifficultyLevel, ExerciseType, Equipment
+from django import forms
+from django.forms import CheckboxSelectMultiple
+
+from gymApp.models import Equipment, Exercise
 
 
 class ExerciseForm(forms.ModelForm):

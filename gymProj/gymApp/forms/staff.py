@@ -1,29 +1,16 @@
-from django import forms
-from crispy_forms.helper import FormHelper
-from django.contrib.auth.forms import UserCreationForm
-from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
-    ButtonHolder,
-    Row,
-    Column,
-    Field,
-)
-from django.forms import CheckboxSelectMultiple, CheckboxSelectMultiple
-from crispy_forms.bootstrap import PrependedText
 from crispy_bootstrap5.bootstrap5 import FloatingField
-from gymApp.models import (
-    Exercise,
-    DifficultyLevel,
-    ExerciseType,
-    Equipment,
-    SubscriptionPlan,
-    WorkoutDay,
-    WorkoutPlan,
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import (
+    ButtonHolder,
+    Field,
+    Fieldset,
+    Layout,
+    Submit,
 )
-from django.contrib.auth.models import User, Group
-from django.utils import timezone
+from django import forms
+from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.models import Group, User
+from django.forms import CheckboxSelectMultiple
 
 
 class StaffForm(UserCreationForm):

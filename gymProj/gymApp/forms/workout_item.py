@@ -1,27 +1,17 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
-    Row,
-    Column,
     Field,
-    Hidden,
+    Fieldset,
+    Layout,
+    Submit,
 )
-from django.forms import CheckboxSelectMultiple, CheckboxSelectMultiple, CharField
-from crispy_forms.bootstrap import PrependedText
-from crispy_bootstrap5.bootstrap5 import FloatingField
+from django import forms
+
 from gymApp.models import (
-    Exercise,
-    DifficultyLevel,
-    ExerciseType,
-    Equipment,
-    WorkoutPlan,
     WorkoutItem,
 )
-from django.db.models import Max
 
 
 class WorkoutItemForm(forms.ModelForm):

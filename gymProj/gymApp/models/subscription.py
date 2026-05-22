@@ -1,6 +1,7 @@
 from decimal import Decimal
-from django.db import models
+
 from django.contrib.auth.models import User
+from django.db import models
 
 from .workout_plan import WorkoutPlan
 
@@ -8,9 +9,7 @@ from .workout_plan import WorkoutPlan
 class SubscriptionPlan(models.Model):
     name = models.CharField(max_length=100)
     price = models.DecimalField(max_digits=10, decimal_places=2)  # e.g., 99.99
-    stripe_price_id = models.CharField(
-        max_length=255, unique=True, null=True, blank=True
-    )
+    stripe_price_id = models.CharField(max_length=255, unique=True, null=True, blank=True)
     features = models.TextField()  # Description of features included
     workout_plans = models.ManyToManyField(WorkoutPlan)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -64,9 +63,7 @@ class Subscription(models.Model):
 
 class SubscriptionPayment(models.Model):
     stripe_invoice_id = models.CharField(max_length=255, unique=True)
-    subscription = models.ForeignKey(
-        Subscription, null=True, blank=True, on_delete=models.SET_NULL
-    )
+    subscription = models.ForeignKey(Subscription, null=True, blank=True, on_delete=models.SET_NULL)
     amount_paid = models.BigIntegerField()  # in cents
     currency = models.CharField(max_length=10)
     paid_at = models.DateTimeField()

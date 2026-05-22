@@ -1,9 +1,8 @@
 from django.db import models
-
 from django.utils import timezone
 
-from .workout_plan import WorkoutPlan, WorkoutDay, WorkoutItem
 from .client_profile import ClientProfile
+from .workout_plan import WorkoutDay, WorkoutItem, WorkoutPlan
 
 
 class WorkoutPlanRun(models.Model):
@@ -15,9 +14,7 @@ class WorkoutPlanRun(models.Model):
     client = models.ForeignKey(
         ClientProfile, on_delete=models.CASCADE, related_name="workout_plan_runs"
     )
-    workout_plan = models.ForeignKey(
-        WorkoutPlan, on_delete=models.CASCADE, related_name="runs"
-    )
+    workout_plan = models.ForeignKey(WorkoutPlan, on_delete=models.CASCADE, related_name="runs")
     started_at = models.DateTimeField(default=timezone.now)
     finished_at = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
@@ -35,9 +32,7 @@ class WorkoutDayLog(models.Model):
     workout_plan_run = models.ForeignKey(
         WorkoutPlanRun, on_delete=models.CASCADE, related_name="day_logs"
     )
-    workout_day = models.ForeignKey(
-        WorkoutDay, on_delete=models.CASCADE, related_name="logs"
-    )
+    workout_day = models.ForeignKey(WorkoutDay, on_delete=models.CASCADE, related_name="logs")
     date = models.DateField(default=timezone.localdate)
     completed = models.BooleanField(default=False)
 
@@ -63,9 +58,7 @@ class WorkoutItemLog(models.Model):
     workout_day_log = models.ForeignKey(
         WorkoutDayLog, on_delete=models.CASCADE, related_name="item_logs"
     )
-    workout_item = models.ForeignKey(
-        WorkoutItem, on_delete=models.CASCADE, related_name="logs"
-    )
+    workout_item = models.ForeignKey(WorkoutItem, on_delete=models.CASCADE, related_name="logs")
     completed = models.BooleanField(default=False)
 
     notes = models.TextField(blank=True)
