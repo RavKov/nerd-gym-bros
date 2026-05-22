@@ -5,7 +5,6 @@ from django.utils import timezone
 import secrets
 from django.utils.crypto import salted_hmac
 
-from django.utils import timezone
 from .subscription import SubscriptionPlan
 from .workout_plan import WorkoutPlan
 

@@ -47,7 +47,6 @@ from gymApi.serializers import (
     ClientProfileSerializer,
     WorkoutDayDetailedLogSerializer,
     SubscriptionPlanSerializer,
-    RegisterSerializer,
     VerifyEmailSerializer,
     ResendVerificationSerializer,
     GymSerializer,
