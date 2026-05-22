@@ -7,7 +7,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -16,475 +15,811 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='SubscriptionPlan',
+            name="SubscriptionPlan",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('price', models.DecimalField(decimal_places=2, max_digits=10)),
-                ('stripe_price_id', models.CharField(blank=True, max_length=255, null=True, unique=True)),
-                ('features', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("price", models.DecimalField(decimal_places=2, max_digits=10)),
+                (
+                    "stripe_price_id",
+                    models.CharField(blank=True, max_length=255, null=True, unique=True),
+                ),
+                ("features", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
         ),
         migrations.CreateModel(
-            name='WorkoutDay',
+            name="WorkoutDay",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('day_number', models.IntegerField()),
-                ('description', models.TextField(blank=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("day_number", models.IntegerField()),
+                ("description", models.TextField(blank=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
             ],
             options={
-                'ordering': ['day_number', 'id'],
+                "ordering": ["day_number", "id"],
             },
         ),
         migrations.CreateModel(
-            name='Address',
+            name="Address",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('street', models.CharField(max_length=255)),
-                ('city', models.CharField(max_length=100)),
-                ('state', models.CharField(max_length=100)),
-                ('postal_code', models.CharField(max_length=20)),
-                ('country', models.CharField(max_length=100)),
-                ('latitude', models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True)),
-                ('longitude', models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("street", models.CharField(max_length=255)),
+                ("city", models.CharField(max_length=100)),
+                ("state", models.CharField(max_length=100)),
+                ("postal_code", models.CharField(max_length=20)),
+                ("country", models.CharField(max_length=100)),
+                (
+                    "latitude",
+                    models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True),
+                ),
+                (
+                    "longitude",
+                    models.DecimalField(blank=True, decimal_places=6, max_digits=9, null=True),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['city'], name='gymApp_addr_city_0912c2_idx'), models.Index(fields=['country'], name='gymApp_addr_country_cd75db_idx')],
+                "indexes": [
+                    models.Index(fields=["city"], name="gymApp_addr_city_0912c2_idx"),
+                    models.Index(fields=["country"], name="gymApp_addr_country_cd75db_idx"),
+                ],
             },
         ),
         migrations.CreateModel(
-            name='ClientProfile',
+            name="ClientProfile",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('age', models.IntegerField(blank=True, null=True)),
-                ('weight', models.FloatField(blank=True, null=True)),
-                ('height', models.FloatField(blank=True, null=True)),
-                ('goals', models.TextField(blank=True, null=True)),
-                ('verified', models.BooleanField(default=False)),
-                ('stripe_customer_id', models.CharField(blank=True, max_length=255, null=True)),
-                ('user', models.OneToOneField(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
-                ('subscription_plan', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='gymApp.subscriptionplan')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("age", models.IntegerField(blank=True, null=True)),
+                ("weight", models.FloatField(blank=True, null=True)),
+                ("height", models.FloatField(blank=True, null=True)),
+                ("goals", models.TextField(blank=True, null=True)),
+                ("verified", models.BooleanField(default=False)),
+                ("stripe_customer_id", models.CharField(blank=True, max_length=255, null=True)),
+                (
+                    "user",
+                    models.OneToOneField(
+                        on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+                    ),
+                ),
+                (
+                    "subscription_plan",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="gymApp.subscriptionplan",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='DifficultyLevel',
+            name="DifficultyLevel",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=50)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=50)),
             ],
             options={
-                'indexes': [models.Index(fields=['name'], name='gymApp_diff_name_a66808_idx')],
+                "indexes": [models.Index(fields=["name"], name="gymApp_diff_name_a66808_idx")],
             },
         ),
         migrations.CreateModel(
-            name='Equipment',
+            name="Equipment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
             options={
-                'indexes': [models.Index(fields=['name'], name='gymApp_equi_name_98c775_idx')],
+                "indexes": [models.Index(fields=["name"], name="gymApp_equi_name_98c775_idx")],
             },
         ),
         migrations.CreateModel(
-            name='ExerciseType',
+            name="ExerciseType",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
             ],
             options={
-                'indexes': [models.Index(fields=['name'], name='gymApp_exer_name_2bd776_idx')],
+                "indexes": [models.Index(fields=["name"], name="gymApp_exer_name_2bd776_idx")],
             },
         ),
         migrations.CreateModel(
-            name='Exercise',
+            name="Exercise",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField()),
-                ('metabolic_equivalent', models.FloatField()),
-                ('video', models.FileField(upload_to='videos/')),
-                ('thumbnail', models.ImageField(upload_to='thumbnails/')),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('amount_unit', models.CharField(max_length=50)),
-                ('difficulty_level', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.difficultylevel')),
-                ('equipments', models.ManyToManyField(blank=True, to='gymApp.equipment')),
-                ('exercise_type', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.exercisetype')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField()),
+                ("metabolic_equivalent", models.FloatField()),
+                ("video", models.FileField(upload_to="videos/")),
+                ("thumbnail", models.ImageField(upload_to="thumbnails/")),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                ("amount_unit", models.CharField(max_length=50)),
+                (
+                    "difficulty_level",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.difficultylevel"
+                    ),
+                ),
+                ("equipments", models.ManyToManyField(blank=True, to="gymApp.equipment")),
+                (
+                    "exercise_type",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.exercisetype"
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Gym',
+            name="Gym",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('contact_email', models.EmailField(max_length=254)),
-                ('contact_phone', models.CharField(max_length=20)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('address', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.address')),
-                ('equipments', models.ManyToManyField(blank=True, to='gymApp.equipment')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("contact_email", models.EmailField(max_length=254)),
+                ("contact_phone", models.CharField(max_length=20)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "address",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.address"
+                    ),
+                ),
+                ("equipments", models.ManyToManyField(blank=True, to="gymApp.equipment")),
             ],
         ),
         migrations.CreateModel(
-            name='GymReview',
+            name="GymReview",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('rating', models.IntegerField()),
-                ('comment', models.TextField(blank=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.clientprofile')),
-                ('gym', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='reviews', to='gymApp.gym')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("rating", models.IntegerField()),
+                ("comment", models.TextField(blank=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "client",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.clientprofile"
+                    ),
+                ),
+                (
+                    "gym",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="reviews",
+                        to="gymApp.gym",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='MobileTextContent',
+            name="MobileTextContent",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code', models.CharField(max_length=255, unique=True)),
-                ('group', models.CharField(max_length=255)),
-                ('text', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("code", models.CharField(max_length=255, unique=True)),
+                ("group", models.CharField(max_length=255)),
+                ("text", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
             ],
             options={
-                'indexes': [models.Index(fields=['group'], name='gymApp_mobi_group_2dab45_idx'), models.Index(fields=['created_at'], name='gymApp_mobi_created_51654a_idx')],
+                "indexes": [
+                    models.Index(fields=["group"], name="gymApp_mobi_group_2dab45_idx"),
+                    models.Index(fields=["created_at"], name="gymApp_mobi_created_51654a_idx"),
+                ],
             },
         ),
         migrations.CreateModel(
-            name='NewFeatureRequest',
+            name="NewFeatureRequest",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('description', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('implemented_at', models.DateTimeField(blank=True, null=True)),
-                ('status', models.CharField(choices=[('pending', 'Pending'), ('accepted', 'Accepted'), ('implemented', 'Implemented'), ('rejected', 'Rejected')], default='pending', max_length=50)),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("description", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("implemented_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("pending", "Pending"),
+                            ("accepted", "Accepted"),
+                            ("implemented", "Implemented"),
+                            ("rejected", "Rejected"),
+                        ],
+                        default="pending",
+                        max_length=50,
+                    ),
+                ),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='Subscription',
+            name="Subscription",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('stripe_customer_id', models.CharField(max_length=255)),
-                ('stripe_subscription_id', models.CharField(max_length=255, unique=True)),
-                ('price_id', models.CharField(max_length=255)),
-                ('status', models.CharField(choices=[('incomplete', 'Incomplete'), ('active', 'Active'), ('past_due', 'Past due'), ('canceled', 'Canceled'), ('unpaid', 'Unpaid')], max_length=50)),
-                ('current_period_start', models.DateTimeField(blank=True, null=True)),
-                ('current_period_end', models.DateTimeField(blank=True, null=True)),
-                ('cancel_at_period_end', models.BooleanField(default=False)),
-                ('canceled_at', models.DateTimeField(blank=True, null=True)),
-                ('ended_at', models.DateTimeField(blank=True, null=True)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("stripe_customer_id", models.CharField(max_length=255)),
+                ("stripe_subscription_id", models.CharField(max_length=255, unique=True)),
+                ("price_id", models.CharField(max_length=255)),
+                (
+                    "status",
+                    models.CharField(
+                        choices=[
+                            ("incomplete", "Incomplete"),
+                            ("active", "Active"),
+                            ("past_due", "Past due"),
+                            ("canceled", "Canceled"),
+                            ("unpaid", "Unpaid"),
+                        ],
+                        max_length=50,
+                    ),
+                ),
+                ("current_period_start", models.DateTimeField(blank=True, null=True)),
+                ("current_period_end", models.DateTimeField(blank=True, null=True)),
+                ("cancel_at_period_end", models.BooleanField(default=False)),
+                ("canceled_at", models.DateTimeField(blank=True, null=True)),
+                ("ended_at", models.DateTimeField(blank=True, null=True)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='SubscriptionPayment',
+            name="SubscriptionPayment",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('stripe_invoice_id', models.CharField(max_length=255, unique=True)),
-                ('amount_paid', models.BigIntegerField()),
-                ('currency', models.CharField(max_length=10)),
-                ('paid_at', models.DateTimeField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('subscription', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='gymApp.subscription')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("stripe_invoice_id", models.CharField(max_length=255, unique=True)),
+                ("amount_paid", models.BigIntegerField()),
+                ("currency", models.CharField(max_length=10)),
+                ("paid_at", models.DateTimeField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                (
+                    "subscription",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.SET_NULL,
+                        to="gymApp.subscription",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='WorkoutDayLog',
+            name="WorkoutDayLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('date', models.DateField(default=django.utils.timezone.localdate)),
-                ('completed', models.BooleanField(default=False)),
-                ('workout_day', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='logs', to='gymApp.workoutday')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("date", models.DateField(default=django.utils.timezone.localdate)),
+                ("completed", models.BooleanField(default=False)),
+                (
+                    "workout_day",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="logs",
+                        to="gymApp.workoutday",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['-date', 'id'],
+                "ordering": ["-date", "id"],
             },
         ),
         migrations.CreateModel(
-            name='WorkoutItem',
+            name="WorkoutItem",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('amount', models.IntegerField()),
-                ('sets', models.IntegerField()),
-                ('order', models.IntegerField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('exercise', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.exercise')),
-                ('workout_day', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='items', to='gymApp.workoutday')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("amount", models.IntegerField()),
+                ("sets", models.IntegerField()),
+                ("order", models.IntegerField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "exercise",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.exercise"
+                    ),
+                ),
+                (
+                    "workout_day",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="items",
+                        to="gymApp.workoutday",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['order', 'id'],
+                "ordering": ["order", "id"],
             },
         ),
         migrations.CreateModel(
-            name='WorkoutItemLog',
+            name="WorkoutItemLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('completed', models.BooleanField(default=False)),
-                ('notes', models.TextField(blank=True)),
-                ('workout_day_log', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='item_logs', to='gymApp.workoutdaylog')),
-                ('workout_item', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='logs', to='gymApp.workoutitem')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("completed", models.BooleanField(default=False)),
+                ("notes", models.TextField(blank=True)),
+                (
+                    "workout_day_log",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="item_logs",
+                        to="gymApp.workoutdaylog",
+                    ),
+                ),
+                (
+                    "workout_item",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="logs",
+                        to="gymApp.workoutitem",
+                    ),
+                ),
             ],
         ),
         migrations.CreateModel(
-            name='WorkoutPlan',
+            name="WorkoutPlan",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=100)),
-                ('description', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('updated_at', models.DateTimeField(auto_now=True)),
-                ('difficulty_level', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to='gymApp.difficultylevel')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("name", models.CharField(max_length=100)),
+                ("description", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("updated_at", models.DateTimeField(auto_now=True)),
+                (
+                    "difficulty_level",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE, to="gymApp.difficultylevel"
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='workoutday',
-            name='workout_plan',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workout_days', to='gymApp.workoutplan'),
+            model_name="workoutday",
+            name="workout_plan",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="workout_days",
+                to="gymApp.workoutplan",
+            ),
         ),
         migrations.AddField(
-            model_name='subscriptionplan',
-            name='workout_plans',
-            field=models.ManyToManyField(to='gymApp.workoutplan'),
+            model_name="subscriptionplan",
+            name="workout_plans",
+            field=models.ManyToManyField(to="gymApp.workoutplan"),
         ),
         migrations.AddField(
-            model_name='clientprofile',
-            name='active_workout_plan',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, to='gymApp.workoutplan'),
+            model_name="clientprofile",
+            name="active_workout_plan",
+            field=models.ForeignKey(
+                blank=True,
+                null=True,
+                on_delete=django.db.models.deletion.SET_NULL,
+                to="gymApp.workoutplan",
+            ),
         ),
         migrations.CreateModel(
-            name='WorkoutPlanRun',
+            name="WorkoutPlanRun",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('started_at', models.DateTimeField(default=django.utils.timezone.now)),
-                ('finished_at', models.DateTimeField(blank=True, null=True)),
-                ('is_active', models.BooleanField(default=True)),
-                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='workout_plan_runs', to='gymApp.clientprofile')),
-                ('workout_plan', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='runs', to='gymApp.workoutplan')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("started_at", models.DateTimeField(default=django.utils.timezone.now)),
+                ("finished_at", models.DateTimeField(blank=True, null=True)),
+                ("is_active", models.BooleanField(default=True)),
+                (
+                    "client",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="workout_plan_runs",
+                        to="gymApp.clientprofile",
+                    ),
+                ),
+                (
+                    "workout_plan",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="runs",
+                        to="gymApp.workoutplan",
+                    ),
+                ),
             ],
         ),
         migrations.AddField(
-            model_name='workoutdaylog',
-            name='workout_plan_run',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='day_logs', to='gymApp.workoutplanrun'),
+            model_name="workoutdaylog",
+            name="workout_plan_run",
+            field=models.ForeignKey(
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="day_logs",
+                to="gymApp.workoutplanrun",
+            ),
         ),
         migrations.CreateModel(
-            name='WorkoutSetLog',
+            name="WorkoutSetLog",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('set_number', models.IntegerField()),
-                ('actual_amount', models.IntegerField(default=0)),
-                ('weight', models.DecimalField(blank=True, decimal_places=2, max_digits=6, null=True)),
-                ('workout_item_log', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='set_logs', to='gymApp.workoutitemlog')),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("set_number", models.IntegerField()),
+                ("actual_amount", models.IntegerField(default=0)),
+                (
+                    "weight",
+                    models.DecimalField(blank=True, decimal_places=2, max_digits=6, null=True),
+                ),
+                (
+                    "workout_item_log",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="set_logs",
+                        to="gymApp.workoutitemlog",
+                    ),
+                ),
             ],
             options={
-                'ordering': ['set_number'],
+                "ordering": ["set_number"],
             },
         ),
         migrations.CreateModel(
-            name='BugReport',
+            name="BugReport",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('title', models.CharField(max_length=200)),
-                ('description', models.TextField()),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('resolved_at', models.DateTimeField(blank=True, null=True)),
-                ('screenshot', models.ImageField(blank=True, null=True, upload_to='bug_screenshots/')),
-                ('resolved', models.BooleanField(default=False)),
-                ('user', models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("title", models.CharField(max_length=200)),
+                ("description", models.TextField()),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("resolved_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "screenshot",
+                    models.ImageField(blank=True, null=True, upload_to="bug_screenshots/"),
+                ),
+                ("resolved", models.BooleanField(default=False)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        blank=True,
+                        null=True,
+                        on_delete=django.db.models.deletion.CASCADE,
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['user'], name='gymApp_bugr_user_id_a06da2_idx'), models.Index(fields=['resolved'], name='gymApp_bugr_resolve_2e668c_idx'), models.Index(fields=['created_at'], name='gymApp_bugr_created_8dd63f_idx')],
+                "indexes": [
+                    models.Index(fields=["user"], name="gymApp_bugr_user_id_a06da2_idx"),
+                    models.Index(fields=["resolved"], name="gymApp_bugr_resolve_2e668c_idx"),
+                    models.Index(fields=["created_at"], name="gymApp_bugr_created_8dd63f_idx"),
+                ],
             },
         ),
         migrations.CreateModel(
-            name='EmailVerificationCode',
+            name="EmailVerificationCode",
             fields=[
-                ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('code_hash', models.CharField(max_length=64)),
-                ('created_at', models.DateTimeField(auto_now_add=True)),
-                ('expires_at', models.DateTimeField()),
-                ('used_at', models.DateTimeField(blank=True, null=True)),
-                ('user', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='email_verification_codes', to=settings.AUTH_USER_MODEL)),
+                (
+                    "id",
+                    models.BigAutoField(
+                        auto_created=True, primary_key=True, serialize=False, verbose_name="ID"
+                    ),
+                ),
+                ("code_hash", models.CharField(max_length=64)),
+                ("created_at", models.DateTimeField(auto_now_add=True)),
+                ("expires_at", models.DateTimeField()),
+                ("used_at", models.DateTimeField(blank=True, null=True)),
+                (
+                    "user",
+                    models.ForeignKey(
+                        on_delete=django.db.models.deletion.CASCADE,
+                        related_name="email_verification_codes",
+                        to=settings.AUTH_USER_MODEL,
+                    ),
+                ),
             ],
             options={
-                'indexes': [models.Index(fields=['user', 'expires_at'], name='gymApp_emai_user_id_5762fb_idx'), models.Index(fields=['user', 'used_at'], name='gymApp_emai_user_id_03f606_idx')],
+                "indexes": [
+                    models.Index(
+                        fields=["user", "expires_at"], name="gymApp_emai_user_id_5762fb_idx"
+                    ),
+                    models.Index(fields=["user", "used_at"], name="gymApp_emai_user_id_03f606_idx"),
+                ],
             },
         ),
         migrations.AddIndex(
-            model_name='exercise',
-            index=models.Index(fields=['name'], name='gymApp_exer_name_cbbda5_idx'),
+            model_name="exercise",
+            index=models.Index(fields=["name"], name="gymApp_exer_name_cbbda5_idx"),
         ),
         migrations.AddIndex(
-            model_name='exercise',
-            index=models.Index(fields=['exercise_type'], name='gymApp_exer_exercis_63f3b8_idx'),
+            model_name="exercise",
+            index=models.Index(fields=["exercise_type"], name="gymApp_exer_exercis_63f3b8_idx"),
         ),
         migrations.AddIndex(
-            model_name='exercise',
-            index=models.Index(fields=['difficulty_level'], name='gymApp_exer_difficu_b2d747_idx'),
+            model_name="exercise",
+            index=models.Index(fields=["difficulty_level"], name="gymApp_exer_difficu_b2d747_idx"),
         ),
         migrations.AddIndex(
-            model_name='gym',
-            index=models.Index(fields=['name'], name='gymApp_gym_name_0e2bce_idx'),
+            model_name="gym",
+            index=models.Index(fields=["name"], name="gymApp_gym_name_0e2bce_idx"),
         ),
         migrations.AddIndex(
-            model_name='gym',
-            index=models.Index(fields=['address'], name='gymApp_gym_address_c2aa72_idx'),
+            model_name="gym",
+            index=models.Index(fields=["address"], name="gymApp_gym_address_c2aa72_idx"),
         ),
         migrations.AddIndex(
-            model_name='gym',
-            index=models.Index(fields=['created_at'], name='gymApp_gym_created_9d3744_idx'),
+            model_name="gym",
+            index=models.Index(fields=["created_at"], name="gymApp_gym_created_9d3744_idx"),
         ),
         migrations.AddIndex(
-            model_name='gymreview',
-            index=models.Index(fields=['gym'], name='gymApp_gymr_gym_id_11acb6_idx'),
+            model_name="gymreview",
+            index=models.Index(fields=["gym"], name="gymApp_gymr_gym_id_11acb6_idx"),
         ),
         migrations.AddIndex(
-            model_name='gymreview',
-            index=models.Index(fields=['client'], name='gymApp_gymr_client__15dc79_idx'),
+            model_name="gymreview",
+            index=models.Index(fields=["client"], name="gymApp_gymr_client__15dc79_idx"),
         ),
         migrations.AddIndex(
-            model_name='gymreview',
-            index=models.Index(fields=['rating'], name='gymApp_gymr_rating_268e05_idx'),
+            model_name="gymreview",
+            index=models.Index(fields=["rating"], name="gymApp_gymr_rating_268e05_idx"),
         ),
         migrations.AlterUniqueTogether(
-            name='gymreview',
-            unique_together={('gym', 'client')},
+            name="gymreview",
+            unique_together={("gym", "client")},
         ),
         migrations.AddIndex(
-            model_name='newfeaturerequest',
-            index=models.Index(fields=['user'], name='gymApp_newf_user_id_70e7d2_idx'),
+            model_name="newfeaturerequest",
+            index=models.Index(fields=["user"], name="gymApp_newf_user_id_70e7d2_idx"),
         ),
         migrations.AddIndex(
-            model_name='newfeaturerequest',
-            index=models.Index(fields=['status'], name='gymApp_newf_status_bcefef_idx'),
+            model_name="newfeaturerequest",
+            index=models.Index(fields=["status"], name="gymApp_newf_status_bcefef_idx"),
         ),
         migrations.AddIndex(
-            model_name='newfeaturerequest',
-            index=models.Index(fields=['created_at'], name='gymApp_newf_created_c1ae1b_idx'),
+            model_name="newfeaturerequest",
+            index=models.Index(fields=["created_at"], name="gymApp_newf_created_c1ae1b_idx"),
         ),
         migrations.AddIndex(
-            model_name='subscription',
-            index=models.Index(fields=['user', 'status'], name='gymApp_subs_user_id_10e2a7_idx'),
+            model_name="subscription",
+            index=models.Index(fields=["user", "status"], name="gymApp_subs_user_id_10e2a7_idx"),
         ),
         migrations.AddIndex(
-            model_name='subscription',
-            index=models.Index(fields=['stripe_customer_id'], name='gymApp_subs_stripe__51f843_idx'),
+            model_name="subscription",
+            index=models.Index(
+                fields=["stripe_customer_id"], name="gymApp_subs_stripe__51f843_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='subscription',
-            index=models.Index(fields=['stripe_subscription_id'], name='gymApp_subs_stripe__bd25b4_idx'),
+            model_name="subscription",
+            index=models.Index(
+                fields=["stripe_subscription_id"], name="gymApp_subs_stripe__bd25b4_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='subscription',
-            index=models.Index(fields=['current_period_end'], name='gymApp_subs_current_71da0b_idx'),
+            model_name="subscription",
+            index=models.Index(
+                fields=["current_period_end"], name="gymApp_subs_current_71da0b_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='subscriptionpayment',
-            index=models.Index(fields=['subscription'], name='gymApp_subs_subscri_f2a4b9_idx'),
+            model_name="subscriptionpayment",
+            index=models.Index(fields=["subscription"], name="gymApp_subs_subscri_f2a4b9_idx"),
         ),
         migrations.AddIndex(
-            model_name='subscriptionpayment',
-            index=models.Index(fields=['paid_at'], name='gymApp_subs_paid_at_c90868_idx'),
+            model_name="subscriptionpayment",
+            index=models.Index(fields=["paid_at"], name="gymApp_subs_paid_at_c90868_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutitem',
-            index=models.Index(fields=['workout_day'], name='gymApp_work_workout_adf6ee_idx'),
+            model_name="workoutitem",
+            index=models.Index(fields=["workout_day"], name="gymApp_work_workout_adf6ee_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutitem',
-            index=models.Index(fields=['exercise'], name='gymApp_work_exercis_87e077_idx'),
+            model_name="workoutitem",
+            index=models.Index(fields=["exercise"], name="gymApp_work_exercis_87e077_idx"),
         ),
         migrations.AddConstraint(
-            model_name='workoutitem',
-            constraint=models.UniqueConstraint(fields=('workout_day', 'order'), name='unique_order_per_workout_day'),
+            model_name="workoutitem",
+            constraint=models.UniqueConstraint(
+                fields=("workout_day", "order"), name="unique_order_per_workout_day"
+            ),
         ),
         migrations.AddIndex(
-            model_name='workoutitemlog',
-            index=models.Index(fields=['workout_day_log'], name='gymApp_work_workout_de76db_idx'),
+            model_name="workoutitemlog",
+            index=models.Index(fields=["workout_day_log"], name="gymApp_work_workout_de76db_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutitemlog',
-            index=models.Index(fields=['workout_item'], name='gymApp_work_workout_d03ac8_idx'),
+            model_name="workoutitemlog",
+            index=models.Index(fields=["workout_item"], name="gymApp_work_workout_d03ac8_idx"),
         ),
         migrations.AddConstraint(
-            model_name='workoutitemlog',
-            constraint=models.UniqueConstraint(fields=('workout_day_log', 'workout_item'), name='unique_item_log_per_day_log'),
+            model_name="workoutitemlog",
+            constraint=models.UniqueConstraint(
+                fields=("workout_day_log", "workout_item"), name="unique_item_log_per_day_log"
+            ),
         ),
         migrations.AddIndex(
-            model_name='workoutplan',
-            index=models.Index(fields=['name'], name='gymApp_work_name_706cec_idx'),
+            model_name="workoutplan",
+            index=models.Index(fields=["name"], name="gymApp_work_name_706cec_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutplan',
-            index=models.Index(fields=['difficulty_level'], name='gymApp_work_difficu_c46925_idx'),
+            model_name="workoutplan",
+            index=models.Index(fields=["difficulty_level"], name="gymApp_work_difficu_c46925_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutplan',
-            index=models.Index(fields=['created_at'], name='gymApp_work_created_baa975_idx'),
+            model_name="workoutplan",
+            index=models.Index(fields=["created_at"], name="gymApp_work_created_baa975_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutday',
-            index=models.Index(fields=['workout_plan'], name='gymApp_work_workout_22622c_idx'),
+            model_name="workoutday",
+            index=models.Index(fields=["workout_plan"], name="gymApp_work_workout_22622c_idx"),
         ),
         migrations.AddConstraint(
-            model_name='workoutday',
-            constraint=models.UniqueConstraint(fields=('workout_plan', 'day_number'), name='unique_day_number_per_plan'),
+            model_name="workoutday",
+            constraint=models.UniqueConstraint(
+                fields=("workout_plan", "day_number"), name="unique_day_number_per_plan"
+            ),
         ),
         migrations.AddIndex(
-            model_name='subscriptionplan',
-            index=models.Index(fields=['name'], name='gymApp_subs_name_0976ae_idx'),
+            model_name="subscriptionplan",
+            index=models.Index(fields=["name"], name="gymApp_subs_name_0976ae_idx"),
         ),
         migrations.AddIndex(
-            model_name='subscriptionplan',
-            index=models.Index(fields=['created_at'], name='gymApp_subs_created_e0ffb9_idx'),
+            model_name="subscriptionplan",
+            index=models.Index(fields=["created_at"], name="gymApp_subs_created_e0ffb9_idx"),
         ),
         migrations.AddIndex(
-            model_name='clientprofile',
-            index=models.Index(fields=['subscription_plan'], name='gymApp_clie_subscri_61469f_idx'),
+            model_name="clientprofile",
+            index=models.Index(fields=["subscription_plan"], name="gymApp_clie_subscri_61469f_idx"),
         ),
         migrations.AddIndex(
-            model_name='clientprofile',
-            index=models.Index(fields=['active_workout_plan'], name='gymApp_clie_active__86751c_idx'),
+            model_name="clientprofile",
+            index=models.Index(
+                fields=["active_workout_plan"], name="gymApp_clie_active__86751c_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='clientprofile',
-            index=models.Index(fields=['verified'], name='gymApp_clie_verifie_5eda0a_idx'),
+            model_name="clientprofile",
+            index=models.Index(fields=["verified"], name="gymApp_clie_verifie_5eda0a_idx"),
         ),
         migrations.AddIndex(
-            model_name='clientprofile',
-            index=models.Index(fields=['stripe_customer_id'], name='gymApp_clie_stripe__218042_idx'),
+            model_name="clientprofile",
+            index=models.Index(
+                fields=["stripe_customer_id"], name="gymApp_clie_stripe__218042_idx"
+            ),
         ),
         migrations.AddIndex(
-            model_name='workoutplanrun',
-            index=models.Index(fields=['client', 'workout_plan', 'is_active'], name='gymApp_work_client__30b64b_idx'),
+            model_name="workoutplanrun",
+            index=models.Index(
+                fields=["client", "workout_plan", "is_active"],
+                name="gymApp_work_client__30b64b_idx",
+            ),
         ),
         migrations.AddIndex(
-            model_name='workoutdaylog',
-            index=models.Index(fields=['workout_plan_run'], name='gymApp_work_workout_3a8246_idx'),
+            model_name="workoutdaylog",
+            index=models.Index(fields=["workout_plan_run"], name="gymApp_work_workout_3a8246_idx"),
         ),
         migrations.AddIndex(
-            model_name='workoutdaylog',
-            index=models.Index(fields=['date'], name='gymApp_work_date_b5e3d2_idx'),
+            model_name="workoutdaylog",
+            index=models.Index(fields=["date"], name="gymApp_work_date_b5e3d2_idx"),
         ),
         migrations.AddConstraint(
-            model_name='workoutdaylog',
-            constraint=models.UniqueConstraint(fields=('workout_plan_run', 'workout_day', 'date'), name='unique_day_log_per_run_day_date'),
+            model_name="workoutdaylog",
+            constraint=models.UniqueConstraint(
+                fields=("workout_plan_run", "workout_day", "date"),
+                name="unique_day_log_per_run_day_date",
+            ),
         ),
         migrations.AddIndex(
-            model_name='workoutsetlog',
-            index=models.Index(fields=['workout_item_log'], name='gymApp_work_workout_b035f2_idx'),
+            model_name="workoutsetlog",
+            index=models.Index(fields=["workout_item_log"], name="gymApp_work_workout_b035f2_idx"),
         ),
         migrations.AddConstraint(
-            model_name='workoutsetlog',
-            constraint=models.UniqueConstraint(fields=('workout_item_log', 'set_number'), name='unique_set_log_per_item_log'),
+            model_name="workoutsetlog",
+            constraint=models.UniqueConstraint(
+                fields=("workout_item_log", "set_number"), name="unique_set_log_per_item_log"
+            ),
         ),
     ]

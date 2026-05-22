@@ -12,6 +12,4 @@ if _env == "production":
 elif _env in ("development", "dev", "local"):
     from .development import *  # noqa: F403
 else:
-    raise ValueError(
-        f"Unknown DJANGO_ENV={_env!r}. Use 'development' or 'production'."
-    )
+    raise ValueError(f"Unknown DJANGO_ENV={_env!r}. Use 'development' or 'production'.")

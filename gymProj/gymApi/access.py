@@ -23,9 +23,7 @@ def get_workout_day_log_for_user(user: User, pk: int) -> WorkoutDayLog:
 def get_workout_item_log_for_user(user: User, pk: int) -> WorkoutItemLog:
     client = get_client_profile(user)
     return get_object_or_404(
-        WorkoutItemLog.objects.filter(
-            workout_day_log__workout_plan_run__client=client
-        ),
+        WorkoutItemLog.objects.filter(workout_day_log__workout_plan_run__client=client),
         pk=pk,
     )
 
