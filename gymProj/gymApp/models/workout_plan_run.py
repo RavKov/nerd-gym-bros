@@ -2,8 +2,6 @@ from django.db import models
 
 from django.utils import timezone
 
-from django.utils import timezone
-
 from .workout_plan import WorkoutPlan, WorkoutDay, WorkoutItem
 from .client_profile import ClientProfile
 

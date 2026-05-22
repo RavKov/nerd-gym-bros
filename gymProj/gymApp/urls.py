@@ -1,7 +1,6 @@
 from django.shortcuts import render
 from django.urls import path
 import gymApp.views as views
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 
 
 def custom_permission_denied_view(request, exception=None):
