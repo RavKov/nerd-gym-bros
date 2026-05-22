@@ -1,15 +1,35 @@
 """
-Helpers to fetch workout log resources scoped to the authenticated client.
+Helpers to fetch resources scoped to the authenticated client.
 """
 
 from django.contrib.auth.models import User
+from django.db.models import QuerySet
 from django.shortcuts import get_object_or_404
 
-from gymApp.models import ClientProfile, WorkoutDayLog, WorkoutItemLog, WorkoutSetLog
+from gymApp.models import (
+    ClientProfile,
+    Exercise,
+    WorkoutDayLog,
+    WorkoutItemLog,
+    WorkoutSetLog,
+)
 
 
 def get_client_profile(user: User) -> ClientProfile:
     return get_object_or_404(ClientProfile, user=user)
+
+
+def exercises_for_user(user: User) -> QuerySet[Exercise]:
+    client = get_client_profile(user)
+    if not client.subscription_plan:
+        return Exercise.objects.none()
+    return Exercise.objects.filter(
+        workoutitem__workout_day__workout_plan__subscriptionplan=client.subscription_plan
+    ).distinct()
+
+
+def get_exercise_for_user(user: User, pk: int) -> Exercise:
+    return get_object_or_404(exercises_for_user(user), pk=pk)
 
 
 def get_workout_day_log_for_user(user: User, pk: int) -> WorkoutDayLog:
