@@ -475,13 +475,21 @@ class StaffCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
 
         try:
             send_mail(
-                subject="Your Staff Account Password",
-                message=f"Your password is: {form.cleaned_data.get('password1')}\nPlease change it after logging in.",
+                subject="Your staff account was created",
+                message=(
+                    f"Hello {user.get_full_name() or user.username},\n\n"
+                    "A staff account was created for you. "
+                    "Contact your administrator to receive login credentials securely.\n"
+                ),
                 from_email=getattr(settings, "DEFAULT_FROM_EMAIL", "admin@gymapp.com"),
                 recipient_list=[user.email],
                 fail_silently=False,
             )
-            messages.success(self.request, "Staff account created and email sent.")
+            messages.success(
+                self.request,
+                "Staff account created. Share login credentials through a secure channel "
+                "(password is not sent by email).",
+            )
         except Exception as e:
             messages.warning(self.request, f"Staff account created, but email failed: {e}")
 

@@ -14,6 +14,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 
 from gymApi.access import (
+    get_exercise_for_user,
     get_workout_day_log_for_user,
     get_workout_item_log_for_user,
     get_workout_set_log_for_user,
@@ -380,12 +381,12 @@ class ExerciseDetailUpdateDeleteAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request, pk: int):
-        exercise = Exercise.objects.get(pk=pk)
+        exercise = get_exercise_for_user(request.user, pk)
         serializer = ExerciseSerializer(exercise)
         return Response(serializer.data)
 
     def put(self, request: Request, pk: int):
-        exercise = Exercise.objects.get(pk=pk)
+        exercise = get_exercise_for_user(request.user, pk)
         serializer = ExerciseSerializer(exercise, data=request.data)
         if serializer.is_valid():
             serializer.save()
@@ -393,7 +394,7 @@ class ExerciseDetailUpdateDeleteAPI(APIView):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def delete(self, request: Request, pk: int):
-        exercise = Exercise.objects.get(pk=pk)
+        exercise = get_exercise_for_user(request.user, pk)
         exercise.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
@@ -408,9 +409,9 @@ def _send_verification_email(to_email: str, code: str) -> None:
             fail_silently=False,
         )
     except Exception as e:
-        logger.error(f"Failed to send verification email code {code} to {to_email}: {e}")
+        logger.error("Failed to send verification email to %s: %s", to_email, e)
     else:
-        logger.info(f">>> Sent verification email to {to_email} with code {code}")
+        logger.info("Verification email sent to %s", to_email)
 
 
 class RegisterAPI(APIView):
@@ -740,7 +741,9 @@ def stripe_webhook(request):
 
 class MobileTextContentListAPI(APIView):
     """
-    GET: Pobierz wszystkie teksty (lub filtruj po group)
+    GET: Pobierz wszystkie teksty (lub filtruj po group).
+
+    Public read-only CMS copy for the mobile app (AllowAny by design).
     """
 
     permission_classes = [permissions.AllowAny]
@@ -772,7 +775,9 @@ class MobileTextContentCreateAPI(APIView):
 
 class MobileTextContentDetailAPI(APIView):
     """
-    GET: Pobierz tekst po kodzie (publiczny)
+    GET: Pobierz tekst po kodzie (publiczny).
+
+    Public read-only CMS copy for the mobile app (AllowAny by design).
     """
 
     permission_classes = [permissions.AllowAny]
