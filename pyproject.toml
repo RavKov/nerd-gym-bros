@@ -1,7 +1,8 @@
 [project]
 name = "nerd-gym-bros"
 version = "0.1.0"
-description = "Add your description here"
+description = "Backend and admin panel for an integrated gym training management system (engineering thesis project)."
+keywords = ["django", "drf", "fitness", "gym", "workout"]
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [

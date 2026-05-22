@@ -11,3 +11,15 @@ wheels/
 
 # environment variables
 .env
+
+# Local database and uploads
+db.sqlite3
+**/db.sqlite3
+media/
+
+# Test and lint caches (future tooling)
+.pytest_cache/
+.ruff_cache/
+htmlcov/
+.coverage
+coverage.xml
