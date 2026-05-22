@@ -1,62 +1,61 @@
-import secrets
+import json
 from datetime import date
 from decimal import Decimal
-
-from django.shortcuts import get_object_or_404, redirect, render
-from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponse, HttpRequest
-from django.contrib.auth.models import User
-from django.contrib.auth.decorators import login_required
-from django.contrib import messages
-from django.conf import settings
-
-from gymApp.forms import (
-    LoginForm,
-    ExerciseForm,
-    GymForm,
-    BugReportForm,
-    NewFeatureRequestForm,
-    EquipmentForm,
-    ExerciseTypeForm,
-    SubscriptionPaymentForm,
-    WorkoutPlanForm,
-    WorkoutItemForm,
-    WorkoutDayForm,
-    UpdateStaffForm,
-    StaffForm,
-    SubscriptionPlanForm,
-)
 from logging import getLogger
-from gymApp.models import (
-    Exercise,
-    Gym,
-    BugReport,
-    NewFeatureRequest,
-    Equipment,
-    ExerciseType,
-    SubscriptionPayment,
-    Subscription,
-    SubscriptionPlan,
-    WorkoutPlan,
-    WorkoutItem,
-    ClientProfile,
-    WorkoutDay,
-)
-from django.urls import reverse_lazy, reverse
+
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import (
     LoginRequiredMixin,
-    UserPassesTestMixin,
     PermissionRequiredMixin,
+    UserPassesTestMixin,
 )
-import json
+from django.contrib.auth.models import User
 from django.db import transaction
 from django.db.models import Count, Sum
 from django.db.models.functions import TruncMonth
+from django.http import HttpRequest, HttpResponse
+from django.shortcuts import get_object_or_404, redirect, render
+from django.urls import reverse, reverse_lazy
 from django.utils import timezone
 
+from gymApp.forms import (
+    BugReportForm,
+    EquipmentForm,
+    ExerciseForm,
+    ExerciseTypeForm,
+    GymForm,
+    LoginForm,
+    NewFeatureRequestForm,
+    StaffForm,
+    SubscriptionPaymentForm,
+    SubscriptionPlanForm,
+    UpdateStaffForm,
+    WorkoutDayForm,
+    WorkoutItemForm,
+    WorkoutPlanForm,
+)
+from gymApp.models import (
+    BugReport,
+    ClientProfile,
+    Equipment,
+    Exercise,
+    ExerciseType,
+    Gym,
+    NewFeatureRequest,
+    Subscription,
+    SubscriptionPayment,
+    SubscriptionPlan,
+    WorkoutDay,
+    WorkoutItem,
+    WorkoutPlan,
+)
 
 log = getLogger(__name__)
 
+from django.core.mail import send_mail
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -64,9 +63,6 @@ from django.views.generic import (
     ListView,
     UpdateView,
 )
-
-
-from django.core.mail import send_mail
 
 
 class ExerciseListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
@@ -206,9 +202,7 @@ class NewFeatureRequestListView(LoginRequiredMixin, PermissionRequiredMixin, Lis
     raise_exception = True
 
 
-class NewFeatureRequestCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, CreateView
-):
+class NewFeatureRequestCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = NewFeatureRequest
     template_name = "gymApp/new_feature_request/form.html"
     success_url = reverse_lazy("new_feature_request_list")
@@ -217,9 +211,7 @@ class NewFeatureRequestCreateView(
     raise_exception = True
 
 
-class NewFeatureRequestUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
-):
+class NewFeatureRequestUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = NewFeatureRequest
     template_name = "gymApp/new_feature_request/form.html"
     success_url = reverse_lazy("new_feature_request_list")
@@ -228,9 +220,7 @@ class NewFeatureRequestUpdateView(
     raise_exception = True
 
 
-class NewFeatureRequestDetailView(
-    LoginRequiredMixin, PermissionRequiredMixin, DetailView
-):
+class NewFeatureRequestDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = NewFeatureRequest
     template_name = "gymApp/new_feature_request/detail.html"
     context_object_name = "feature_request"
@@ -238,9 +228,7 @@ class NewFeatureRequestDetailView(
     raise_exception = True
 
 
-class NewFeatureRequestDeleteView(
-    LoginRequiredMixin, PermissionRequiredMixin, DeleteView
-):
+class NewFeatureRequestDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = NewFeatureRequest
     template_name = "gymApp/new_feature_request/confirm_delete.html"
     context_object_name = "feature_request"
@@ -335,9 +323,7 @@ class ExerciseTypeDeleteView(LoginRequiredMixin, PermissionRequiredMixin, Delete
     raise_exception = True
 
 
-class SubscriptionPaymentListView(
-    LoginRequiredMixin, PermissionRequiredMixin, ListView
-):
+class SubscriptionPaymentListView(LoginRequiredMixin, PermissionRequiredMixin, ListView):
     model = SubscriptionPayment
     template_name = "gymApp/subscription_payment/list.html"
     context_object_name = "subscription_payments"
@@ -345,9 +331,7 @@ class SubscriptionPaymentListView(
     raise_exception = True
 
 
-class SubscriptionPaymentCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, CreateView
-):
+class SubscriptionPaymentCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = SubscriptionPayment
     template_name = "gymApp/subscription_payment/form.html"
     success_url = reverse_lazy("subscription_payment_list")
@@ -356,9 +340,7 @@ class SubscriptionPaymentCreateView(
     raise_exception = True
 
 
-class SubscriptionPaymentUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
-):
+class SubscriptionPaymentUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = SubscriptionPayment
     template_name = "gymApp/subscription_payment/form.html"
     success_url = reverse_lazy("subscription_payment_list")
@@ -367,9 +349,7 @@ class SubscriptionPaymentUpdateView(
     raise_exception = True
 
 
-class SubscriptionPaymentDetailView(
-    LoginRequiredMixin, PermissionRequiredMixin, DetailView
-):
+class SubscriptionPaymentDetailView(LoginRequiredMixin, PermissionRequiredMixin, DetailView):
     model = SubscriptionPayment
     template_name = "gymApp/subscription_payment/detail.html"
     context_object_name = "subscription_payment"
@@ -435,9 +415,7 @@ class SubscriptionPlanListView(LoginRequiredMixin, PermissionRequiredMixin, List
     permission_required = "gymApp.view_subscriptionplan"
 
 
-class SubscriptionPlanCreateView(
-    LoginRequiredMixin, PermissionRequiredMixin, CreateView
-):
+class SubscriptionPlanCreateView(LoginRequiredMixin, PermissionRequiredMixin, CreateView):
     model = SubscriptionPlan
     template_name = "gymApp/subscription_plan/form.html"
     success_url = reverse_lazy("subscription_plan_list")
@@ -446,9 +424,7 @@ class SubscriptionPlanCreateView(
     raise_exception = True
 
 
-class SubscriptionPlanUpdateView(
-    LoginRequiredMixin, PermissionRequiredMixin, UpdateView
-):
+class SubscriptionPlanUpdateView(LoginRequiredMixin, PermissionRequiredMixin, UpdateView):
     model = SubscriptionPlan
     template_name = "gymApp/subscription_plan/form.html"
     success_url = reverse_lazy("subscription_plan_list")
@@ -457,9 +433,7 @@ class SubscriptionPlanUpdateView(
     raise_exception = True
 
 
-class SubscriptionPlanDeleteView(
-    LoginRequiredMixin, PermissionRequiredMixin, DeleteView
-):
+class SubscriptionPlanDeleteView(LoginRequiredMixin, PermissionRequiredMixin, DeleteView):
     model = SubscriptionPlan
     template_name = "gymApp/subscription_plan/confirm_delete.html"
     context_object_name = "subscription_plan"
@@ -509,9 +483,7 @@ class StaffCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
             )
             messages.success(self.request, "Staff account created and email sent.")
         except Exception as e:
-            messages.warning(
-                self.request, f"Staff account created, but email failed: {e}"
-            )
+            messages.warning(self.request, f"Staff account created, but email failed: {e}")
 
         return redirect(self.get_success_url())
 
@@ -571,7 +543,7 @@ class ClientToggleActiveView(LoginRequiredMixin, PermissionRequiredMixin, Update
 
 @login_required
 def reports_view(request: HttpRequest):
-    from gymReports.views import get_report_catalog, ensure_default_templates
+    from gymReports.views import ensure_default_templates, get_report_catalog
 
     ensure_default_templates()
     return render(
@@ -583,7 +555,6 @@ def reports_view(request: HttpRequest):
 
 def workout_day_create_view(request: HttpRequest):
     if request.method == "POST":
-
         form = WorkoutDayForm(request.POST)
         if form.is_valid():
             workout_day = WorkoutDay.create_at_end(**form.cleaned_data)
@@ -665,14 +636,10 @@ def workout_item_reorder_view(request: HttpRequest):
             bump = 100000
             # This avoids unique constraint violation
             for item in jsonData:
-                WorkoutItem.objects.filter(pk=item["id"]).update(
-                    order=int(item["order"]) + bump
-                )
+                WorkoutItem.objects.filter(pk=item["id"]).update(order=int(item["order"]) + bump)
 
             for item in jsonData:
-                WorkoutItem.objects.filter(pk=item["id"]).update(
-                    order=int(item["order"])
-                )
+                WorkoutItem.objects.filter(pk=item["id"]).update(order=int(item["order"]))
         return HttpResponse("Workout items reordered successfully.", status=200)
 
 
@@ -689,9 +656,7 @@ def workout_day_reorder_view(request: HttpRequest):
                 )
 
             for item in jsonData:
-                WorkoutDay.objects.filter(pk=item["id"]).update(
-                    day_number=int(item["day_number"])
-                )
+                WorkoutDay.objects.filter(pk=item["id"]).update(day_number=int(item["day_number"]))
         return HttpResponse("Workout days reordered successfully.", status=200)
 
 
@@ -774,11 +739,7 @@ def home_view(request: HttpRequest):
     )
 
     def map_month_values(qs) -> dict[date, int]:
-        return {
-            item["month"].date(): int(item["total"] or 0)
-            for item in qs
-            if item["month"]
-        }
+        return {item["month"].date(): int(item["total"] or 0) for item in qs if item["month"]}
 
     bug_map = map_month_values(bug_report_qs)
     feature_map = map_month_values(feature_request_qs)
@@ -795,9 +756,7 @@ def home_view(request: HttpRequest):
     payment_series = [float(payment_map.get(m, Decimal("0"))) for m in months]
 
     subscription_status = (
-        Subscription.objects.values("status")
-        .annotate(total=Count("id"))
-        .order_by("status")
+        Subscription.objects.values("status").annotate(total=Count("id")).order_by("status")
     )
     status_labels = [item["status"] for item in subscription_status]
     status_values = [item["total"] for item in subscription_status]
@@ -809,9 +768,7 @@ def home_view(request: HttpRequest):
             "exercises": Exercise.objects.count(),
             "workout_plans": WorkoutPlan.objects.count(),
             "subscriptions": Subscription.objects.count(),
-            "active_subscriptions": Subscription.objects.filter(
-                status="active"
-            ).count(),
+            "active_subscriptions": Subscription.objects.filter(status="active").count(),
             "payments": SubscriptionPayment.objects.count(),
             "bug_reports": BugReport.objects.count(),
             "feature_requests": NewFeatureRequest.objects.count(),

@@ -1,5 +1,8 @@
 # Nerd Gym Bros
-Backend oraz panel administracyjny do mojego projektu inżynierskiego, którym jest **Zintegrowany system zarządzania treningiem**. 
+
+![CI](https://github.com/RavKov/nerd-gym-bros/actions/workflows/ci.yml/badge.svg)
+
+Backend oraz panel administracyjny do mojego projektu inżynierskiego, którym jest **Zintegrowany system zarządzania treningiem**.
 
 Projekt stworzony z użyciem frameworka webowego Django.
 
@@ -47,4 +50,4 @@ https://www.youtube.com/watch?v=a2BepgsEpck
  4. Uruchom `npx expo run:android`
  5. W razie problemów: https://docs.expo.dev/workflow/android-studio-emulator/
  6. Po pomyślnym uruchomieniu aplikacji należy zarejestrować się. Kod do weryfikacji utworzonego usera pojawi się w logach serwera django po pomyślnym utworzeniu konta.
- 7. UWAGA! Na githubie nie dołączyłem .env z tokenami, więc proszę o kontakt w razie niedziałającej integracji z Stripe. 
+ 7. UWAGA! Na githubie nie dołączyłem .env z tokenami, więc proszę o kontakt w razie niedziałającej integracji z Stripe.

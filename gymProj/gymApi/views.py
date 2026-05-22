@@ -1,74 +1,66 @@
-from django.db import connection
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from gymApp.models import (
-    Exercise,
-    WorkoutPlan,
-    WorkoutDay,
-    SubscriptionPayment,
-    WorkoutPlanRun,
-    Subscription,
-    ClientProfile,
-    Gym,
-    WorkoutDayLog,
-    Equipment,
-    WorkoutSetLog,
-    WorkoutItemLog,
-    WorkoutItem,
-    SubscriptionPlan,
-    EmailVerificationCode,
-    MobileTextContent,
-)
-from django.db import transaction
-import stripe
 import datetime
-from django.utils import timezone
+import logging
+
+import stripe
 from django.conf import settings
+from django.contrib.auth.models import User
 from django.core.mail import send_mail
+from django.db import connection, transaction
+from django.utils import timezone
+from rest_framework import permissions, status
+from rest_framework.decorators import api_view, permission_classes
+from rest_framework.request import Request
+from rest_framework.response import Response
+from rest_framework.views import APIView
 
 from gymApi.access import (
     get_workout_day_log_for_user,
     get_workout_item_log_for_user,
     get_workout_set_log_for_user,
 )
-from gymApi.throttling import RegisterRateThrottle
 from gymApi.serializers import (
+    BugReportSerializer,
+    ClientProfileSerializer,
+    EquipmentSerializer,
     ExerciseSerializer,
+    GymSerializer,
+    MobileTextContentSerializer,
+    NewFeatureRequestSerializer,
     RegisterSerializer,
+    ResendVerificationSerializer,
+    SubscriptionPlanSerializer,
+    SubscriptionSerializer,
+    VerifyEmailSerializer,
+    WorkoutDayDetailedLogSerializer,
+    WorkoutItemDetailedLogSerializer,
     WorkoutPlanRunSerializer,
     WorkoutPlanSerializer,
-    WorkoutItemDetailedLogSerializer,
-    EquipmentSerializer,
-    SubscriptionCreateSerializer,
-    SubscriptionSerializer,
-    PaymentIntentCreateSerializer,
-    WorkoutDaySerializer,
-    WorkoutItemSerializer,
-    ClientProfileSerializer,
-    WorkoutDayDetailedLogSerializer,
-    SubscriptionPlanSerializer,
-    VerifyEmailSerializer,
-    ResendVerificationSerializer,
-    GymSerializer,
-    BugReportSerializer,
-    NewFeatureRequestSerializer,
-    MobileTextContentSerializer,
 )
-from rest_framework.decorators import api_view, permission_classes
-from django.contrib.auth.models import User
-from rest_framework import permissions
-from rest_framework.request import Request
-from rest_framework import status
-import logging
-
+from gymApi.throttling import RegisterRateThrottle
+from gymApp.models import (
+    ClientProfile,
+    EmailVerificationCode,
+    Equipment,
+    Exercise,
+    Gym,
+    MobileTextContent,
+    Subscription,
+    SubscriptionPayment,
+    SubscriptionPlan,
+    WorkoutDay,
+    WorkoutDayLog,
+    WorkoutItem,
+    WorkoutItemLog,
+    WorkoutPlan,
+    WorkoutPlanRun,
+    WorkoutSetLog,
+)
 
 logger = logging.getLogger(__name__)
 
 
 def _get_latest_subscription_item(stripe_subscription: dict) -> dict | None:
-    logger.info(
-        f">>> _get_latest_subscription_item stripe_subscription: {stripe_subscription}"
-    )
+    logger.info(f">>> _get_latest_subscription_item stripe_subscription: {stripe_subscription}")
     items = stripe_subscription.get("items", {})
     logger.info(f">>> _get_latest_subscription_item items: {items}")
     data = items.get("data", None) or []
@@ -85,7 +77,7 @@ def _datetime_from_stripe_timestamp(ts) -> timezone.datetime | None:
     if not ts:
         return None
     if isinstance(ts, int):
-        return timezone.datetime.fromtimestamp(ts, tz=datetime.timezone.utc)
+        return timezone.datetime.fromtimestamp(ts, tz=datetime.UTC)
     return None
 
 
@@ -111,12 +103,7 @@ def _get_stripe_subscription_id_from_invoice(invoice: dict) -> str | None:
     logger.info(f"Invoice lines data: {data}")
 
     for line in data:
-        sub_id = (
-            (line or {})
-            .get("parent")
-            .get("subscription_item_details")
-            .get("subscription")
-        )
+        sub_id = (line or {}).get("parent").get("subscription_item_details").get("subscription")
         if sub_id:
             return sub_id
     return None
@@ -168,9 +155,7 @@ class SubscriptionPlanChooseAPI(APIView):
         logger.info(
             f">>> User {request.user.username} chose subscription plan {subscription_plan.name}"
         )
-        return Response(
-            {"message": "Subscription plan updated."}, status=status.HTTP_200_OK
-        )
+        return Response({"message": "Subscription plan updated."}, status=status.HTTP_200_OK)
 
     def get(self, request: Request):
         client_profile = ClientProfile.objects.get(user=request.user)
@@ -183,9 +168,7 @@ class SubscriptionDetailAPI(APIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
-        subscription = Subscription.objects.filter(
-            user=request.user, status="active"
-        ).last()
+        subscription = Subscription.objects.filter(user=request.user, status="active").last()
         serializer = SubscriptionSerializer(subscription)
         return Response(serializer.data)
 
@@ -235,7 +218,7 @@ class WorkoutPlanRunAPI(APIView):
 
         is_active = request.data.get("is_active", None)
         finished_at = request.data.get("finished_at", None)
-        if is_active is not None and is_active == False:
+        if is_active is not None and not is_active:
             workout_plan_run.is_active = is_active
             workout_plan_run.finished_at = finished_at
             if not finished_at:
@@ -245,9 +228,7 @@ class WorkoutPlanRunAPI(APIView):
             client.active_workout_plan = None
             client.save(update_fields=["active_workout_plan"])
 
-            return Response(
-                {"message": "Workout plan run updated."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Workout plan run updated."}, status=status.HTTP_200_OK)
         logger.info(f">>> WorkoutPlanRunAPI PATCH INVALID data: {request.data}")
 
         return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
@@ -267,9 +248,7 @@ class WorkoutDayDetailedLogAPI(APIView):
             workout_day_log = get_workout_day_log_for_user(request.user, pk)
             workout_day_log.completed = completed
             workout_day_log.save(update_fields=["completed"])
-            return Response(
-                {"message": "Workout day log updated."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Workout day log updated."}, status=status.HTTP_200_OK)
         return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -287,9 +266,7 @@ class WorkoutItemDetailedLogAPI(APIView):
             workout_item_log = get_workout_item_log_for_user(request.user, pk)
             workout_item_log.completed = completed
             workout_item_log.save(update_fields=["completed"])
-            return Response(
-                {"message": "Workout item log updated."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Workout item log updated."}, status=status.HTTP_200_OK)
         return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
@@ -302,14 +279,12 @@ def update_set_log(request: Request, pk: int):
         workout_set_log = get_workout_set_log_for_user(request.user, pk)
         workout_set_log.actual_amount = actual_amount
         workout_set_log.save(update_fields=["actual_amount"])
-        return Response(
-            {"message": "Workout set log updated."}, status=status.HTTP_200_OK
-        )
+        return Response({"message": "Workout set log updated."}, status=status.HTTP_200_OK)
     return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 def get_active_workout_plan_run(client: ClientProfile) -> WorkoutPlanRun | None:
-    now = timezone.now()
+    timezone.now()
     return WorkoutPlanRun.objects.filter(
         client=client,
         is_active=True,
@@ -323,9 +298,7 @@ def create_workout_plan_run_for_client(
         client=client, workout_plan=workout_plan, started_at=timezone.now()
     )
 
-    workout_plan_days = WorkoutDay.objects.filter(workout_plan=workout_plan).order_by(
-        "day_number"
-    )
+    workout_plan_days = WorkoutDay.objects.filter(workout_plan=workout_plan).order_by("day_number")
     planned_day_date = timezone.now().date()
 
     for day in workout_plan_days:
@@ -355,9 +328,7 @@ def create_workout_plan_run_for_client(
         #     completed=False,
         # )
 
-    logger.info(
-        f">>> Created WorkoutPlanRun {workout_plan_run.id} for user {client.user.username}"
-    )
+    logger.info(f">>> Created WorkoutPlanRun {workout_plan_run.id} for user {client.user.username}")
     return workout_plan_run
 
 
@@ -437,9 +408,7 @@ def _send_verification_email(to_email: str, code: str) -> None:
             fail_silently=False,
         )
     except Exception as e:
-        logger.error(
-            f"Failed to send verification email code {code} to {to_email}: {e}"
-        )
+        logger.error(f"Failed to send verification email code {code} to {to_email}: {e}")
     else:
         logger.info(f">>> Sent verification email to {to_email} with code {code}")
 
@@ -514,9 +483,7 @@ class ResendVerificationAPI(APIView):
         email = s.validated_data["email"]
 
         user = request.user
-        logger.info(
-            f">>> ResendVerificationAPI called for user {user.username} with email {email}"
-        )
+        logger.info(f">>> ResendVerificationAPI called for user {user.username} with email {email}")
         if user.email != email:
             return Response(
                 {"detail": "Email does not match the authenticated user."},
@@ -525,16 +492,12 @@ class ResendVerificationAPI(APIView):
 
         profile = ClientProfile.objects.get(user=user)
         if profile.verified:
-            return Response(
-                {"message": "Email already verified."}, status=status.HTTP_200_OK
-            )
+            return Response({"message": "Email already verified."}, status=status.HTTP_200_OK)
 
         _, code = EmailVerificationCode.issue_for_user(user=user, ttl_minutes=15)
         _send_verification_email(user.email, code)
 
-        return Response(
-            {"message": "Verification code sent."}, status=status.HTTP_200_OK
-        )
+        return Response({"message": "Verification code sent."}, status=status.HTTP_200_OK)
 
 
 class ClientDetailAPI(APIView):
@@ -556,9 +519,7 @@ class BugReportAPI(APIView):
         serializer.is_valid(raise_exception=True)
 
         bug_report = serializer.save(user=request.user)
-        logger.info(
-            f">>> User {request.user.username} reported a bug with id {bug_report.id}"
-        )
+        logger.info(f">>> User {request.user.username} reported a bug with id {bug_report.id}")
 
         return Response(
             {"message": "Bug report submitted successfully."},
@@ -623,9 +584,7 @@ class CreateSubscriptionSheetAPI(APIView):
     def post(self, request):
         price_id = request.data["price_id"]
 
-        customer_id = get_or_create_stripe_customer_id(
-            ClientProfile.objects.get(user=request.user)
-        )
+        customer_id = get_or_create_stripe_customer_id(ClientProfile.objects.get(user=request.user))
 
         stripe_subscription = stripe.Subscription.create(
             customer=customer_id,
@@ -650,9 +609,7 @@ class CreateSubscriptionSheetAPI(APIView):
             current_period_end=_datetime_from_stripe_timestamp(
                 getattr(latest_sub_item, "current_period_end", None)
             ),
-            cancel_at_period_end=bool(
-                getattr(stripe_subscription, "cancel_at_period_end", False)
-            ),
+            cancel_at_period_end=bool(getattr(stripe_subscription, "cancel_at_period_end", False)),
             canceled_at=_datetime_from_stripe_timestamp(
                 getattr(stripe_subscription, "canceled_at", None)
             ),
@@ -668,9 +625,7 @@ class CreateSubscriptionSheetAPI(APIView):
             stripe_version="2023-10-16",
         )
 
-        client_secret = (
-            stripe_subscription.latest_invoice.confirmation_secret.client_secret
-        )
+        client_secret = stripe_subscription.latest_invoice.confirmation_secret.client_secret
 
         return Response(
             {
@@ -741,9 +696,7 @@ def stripe_webhook(request):
     sig_header = request.META.get("HTTP_STRIPE_SIGNATURE")
 
     try:
-        event = stripe.Webhook.construct_event(
-            payload, sig_header, settings.STRIPE_WEBHOOK_SECRET
-        )
+        event = stripe.Webhook.construct_event(payload, sig_header, settings.STRIPE_WEBHOOK_SECRET)
     except stripe.error.SignatureVerificationError:
         return Response(status=400)
 

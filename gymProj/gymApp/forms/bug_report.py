@@ -1,23 +1,19 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
-    Row,
-    Column,
     Field,
+    Fieldset,
+    Layout,
+    Submit,
 )
-from crispy_bootstrap5.bootstrap5 import FloatingField
+from django import forms
 
 from gymApp.models import BugReport
 
 
 class BugReportForm(forms.ModelForm):
-    resolved_at = forms.DateField(
-        widget=forms.DateInput(attrs={"type": "date"}), required=False
-    )
+    resolved_at = forms.DateField(widget=forms.DateInput(attrs={"type": "date"}), required=False)
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)

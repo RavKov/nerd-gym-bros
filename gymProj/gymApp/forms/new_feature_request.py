@@ -1,12 +1,12 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
+    Fieldset,
+    Layout,
+    Submit,
 )
-from crispy_bootstrap5.bootstrap5 import FloatingField
+from django import forms
 
 from gymApp.models import NewFeatureRequest
 

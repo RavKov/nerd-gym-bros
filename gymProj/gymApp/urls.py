@@ -1,5 +1,6 @@
 from django.shortcuts import render
 from django.urls import path
+
 import gymApp.views as views
 
 
@@ -19,9 +20,7 @@ urlpatterns = [
         views.ExerciseDetailView.as_view(),
         name="exercise_detail",
     ),
-    path(
-        "exercises/create/", views.ExerciseCreateView.as_view(), name="exercise_create"
-    ),
+    path("exercises/create/", views.ExerciseCreateView.as_view(), name="exercise_create"),
     path(
         "exercises/<int:pk>/update/",
         views.ExerciseUpdateView.as_view(),
@@ -32,9 +31,7 @@ urlpatterns = [
         views.ExerciseDeleteView.as_view(),
         name="exercise_delete",
     ),
-    path(
-        "workout_plans/", views.WorkoutPlanListView.as_view(), name="workout_plan_list"
-    ),
+    path("workout_plans/", views.WorkoutPlanListView.as_view(), name="workout_plan_list"),
     path(
         "workout_plans/create/",
         views.WorkoutPlanCreateView.as_view(),
@@ -241,9 +238,7 @@ urlpatterns = [
         views.StaffDeleteView.as_view(),
         name="staff_delete",
     ),
-    path(
-        "staff/<int:pk>/update/", views.StaffUpdateView.as_view(), name="staff_update"
-    ),
+    path("staff/<int:pk>/update/", views.StaffUpdateView.as_view(), name="staff_update"),
     path("clients/", views.ClientListView.as_view(), name="client_list"),
     path(
         "clients/<int:pk>/toggle_active",
@@ -252,4 +247,3 @@ urlpatterns = [
     ),
     path("reports/", views.reports_view, name="reports"),
 ]
-

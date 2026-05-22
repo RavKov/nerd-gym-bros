@@ -1,8 +1,8 @@
-from django.db import models
-from django.contrib.auth.models import User
-
-from django.utils import timezone
 import secrets
+
+from django.contrib.auth.models import User
+from django.db import models
+from django.utils import timezone
 from django.utils.crypto import salted_hmac
 
 from .subscription import SubscriptionPlan
@@ -87,11 +87,7 @@ class EmailVerificationCode(models.Model):
         """
         Zwraca True jeśli kod poprawny i aktualny; w takim wypadku oznacza go jako użyty.
         """
-        evc = (
-            cls.objects.filter(user=user, used_at__isnull=True)
-            .order_by("-created_at")
-            .first()
-        )
+        evc = cls.objects.filter(user=user, used_at__isnull=True).order_by("-created_at").first()
         if not evc or evc.is_expired():
             return False
         if evc.code_hash != cls._hash_code(code):

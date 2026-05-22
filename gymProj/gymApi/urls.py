@@ -1,4 +1,5 @@
 from django.urls import path
+
 from gymApi import views
 from gymApi.auth_views import (
     ThrottledTokenObtainPairView,
@@ -71,9 +72,7 @@ urlpatterns = [
     path("create_subscription_sheet/", views.CreateSubscriptionSheetAPI.as_view()),
     path("stripe_webhook/", views.stripe_webhook),
     path("cancel_subscription/", views.CancelSubscriptionAPI.as_view()),
-    path(
-        "create_bug_report/", views.BugReportAPI.as_view(), name="bug_report_create_api"
-    ),
+    path("create_bug_report/", views.BugReportAPI.as_view(), name="bug_report_create_api"),
     path(
         "create_feature_request/",
         views.NewFeatureRequestAPI.as_view(),

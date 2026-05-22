@@ -1,7 +1,7 @@
-from django import forms
-from crispy_forms.helper import FormHelper
-from crispy_forms.layout import Submit, Layout, Fieldset, ButtonHolder
 from crispy_bootstrap5.bootstrap5 import FloatingField
+from crispy_forms.helper import FormHelper
+from crispy_forms.layout import ButtonHolder, Fieldset, Layout, Submit
+from django import forms
 
 
 class LoginForm(forms.Form):
@@ -24,12 +24,8 @@ class LoginForm(forms.Form):
 
     username = forms.CharField(
         max_length=150,
-        widget=forms.TextInput(
-            attrs={"class": "form-control", "placeholder": "Username"}
-        ),
+        widget=forms.TextInput(attrs={"class": "form-control", "placeholder": "Username"}),
     )
     password = forms.CharField(
-        widget=forms.PasswordInput(
-            attrs={"class": "form-control", "placeholder": "Password"}
-        )
+        widget=forms.PasswordInput(attrs={"class": "form-control", "placeholder": "Password"})
     )

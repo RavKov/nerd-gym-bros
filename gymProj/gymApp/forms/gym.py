@@ -1,18 +1,18 @@
-from django import forms
+from crispy_bootstrap5.bootstrap5 import FloatingField
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import (
-    Submit,
-    Layout,
-    Fieldset,
     ButtonHolder,
-    Row,
     Column,
     Field,
+    Fieldset,
+    Layout,
+    Row,
+    Submit,
 )
-from crispy_bootstrap5.bootstrap5 import FloatingField
+from django import forms
 from django.forms import CheckboxSelectMultiple
 
-from gymApp.models import Gym, Address, Equipment
+from gymApp.models import Address, Equipment, Gym
 
 
 class GymForm(forms.ModelForm):
@@ -21,9 +21,7 @@ class GymForm(forms.ModelForm):
     state = forms.CharField(label="State", max_length=100)
     postal_code = forms.CharField(label="Postal code", max_length=20)
     country = forms.CharField(label="Country", max_length=100)
-    latitude = forms.DecimalField(
-        label="Latitude", max_digits=9, decimal_places=6, required=False
-    )
+    latitude = forms.DecimalField(label="Latitude", max_digits=9, decimal_places=6, required=False)
     longitude = forms.DecimalField(
         label="Longitude", max_digits=9, decimal_places=6, required=False
     )
