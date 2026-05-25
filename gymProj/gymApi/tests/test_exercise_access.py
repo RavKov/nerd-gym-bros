@@ -13,7 +13,9 @@ from gymApp.models import (
 
 
 @pytest.mark.django_db
-def test_exercise_detail_returns_404_for_exercise_outside_subscription_plan():
+def test_exercise_detail_returns_404_for_exercise_outside_subscription_plan(
+    api_client: APIClient,
+):
     plan_a = SubscriptionPlan.objects.create(name="Plan A", price=0, features="A")
 
     user_a = User.objects.create_user(username="user_a", password="pass12345")
@@ -32,8 +34,7 @@ def test_exercise_detail_returns_404_for_exercise_outside_subscription_plan():
         exercise_type=exercise_type,
     )
 
-    client = APIClient()
-    client.force_authenticate(user=user_a)
-    response = client.get(f"/api/exercises/{exercise.pk}/")
+    api_client.force_authenticate(user=user_a)
+    response = api_client.get(f"/api/exercises/{exercise.pk}/")
 
     assert response.status_code == 404
