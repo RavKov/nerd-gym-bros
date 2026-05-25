@@ -29,6 +29,7 @@ INSTALLED_APPS = [
     "crispy_bootstrap5",
     "django_bootstrap_icons",
     "rest_framework",
+    "drf_spectacular",
     "corsheaders",
 ]
 
@@ -72,6 +73,7 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
     "DEFAULT_PAGINATION_CLASS": "gymApi.pagination.StandardPagination",
     "PAGE_SIZE": 20,
     "DEFAULT_THROTTLE_RATES": {
@@ -79,6 +81,13 @@ REST_FRAMEWORK = {
         "register": "10/hour",
         "token_refresh": "60/hour",
     },
+}
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Nerd Gym Bros API",
+    "DESCRIPTION": "JWT-based mobile API for the integrated gym training management system.",
+    "VERSION": "1.0.0",
+    "SERVE_INCLUDE_SCHEMA": False,
 }
 
 MIDDLEWARE = [
