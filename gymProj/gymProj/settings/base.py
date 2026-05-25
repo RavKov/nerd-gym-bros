@@ -72,6 +72,8 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
     "DEFAULT_PERMISSION_CLASSES": ("rest_framework.permissions.IsAuthenticated",),
+    "DEFAULT_PAGINATION_CLASS": "gymApi.pagination.StandardPagination",
+    "PAGE_SIZE": 20,
     "DEFAULT_THROTTLE_RATES": {
         "login": "20/hour",
         "register": "10/hour",

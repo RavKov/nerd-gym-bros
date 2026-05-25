@@ -7,24 +7,26 @@ from gymApi.access import get_exercise_for_user
 from gymApi.serializers import ExerciseSerializer
 from gymApp.models import ClientProfile, Exercise
 
+from .pagination import PaginatedAPIView
 
-class ExerciseListAPI(APIView):
+
+class ExerciseListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
         client = ClientProfile.objects.get(user=request.user)
         if not client.subscription_plan:
-            return Response(
-                [],
-                status=status.HTTP_204_NO_CONTENT,
+            return self.paginate_response(request, Exercise.objects.none(), ExerciseSerializer)
+
+        exercises = (
+            Exercise.objects.filter(
+                workoutitem__workout_day__workout_plan__subscriptionplan=client.subscription_plan
             )
+            .distinct()
+            .order_by("id")
+        )
 
-        exercises = Exercise.objects.filter(
-            workoutitem__workout_day__workout_plan__subscriptionplan=client.subscription_plan
-        ).distinct()
-
-        serializer = ExerciseSerializer(exercises, many=True)
-        return Response(serializer.data)
+        return self.paginate_response(request, exercises, ExerciseSerializer)
 
 
 class ExerciseDetailUpdateDeleteAPI(APIView):

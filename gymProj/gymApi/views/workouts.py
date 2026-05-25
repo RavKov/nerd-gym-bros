@@ -30,23 +30,23 @@ from gymApp.models import (
     WorkoutSetLog,
 )
 
+from .pagination import PaginatedAPIView
+
 logger = logging.getLogger(__name__)
 
 
-class WorkoutPlanListAPI(APIView):
+class WorkoutPlanListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
         client = ClientProfile.objects.get(user=request.user)
         subscription_plan = client.subscription_plan
         if not subscription_plan:
-            return Response(
-                [],
-                status=status.HTTP_204_NO_CONTENT,
+            return self.paginate_response(
+                request, WorkoutPlan.objects.none(), WorkoutPlanSerializer
             )
-        workout_plans = client.subscription_plan.workout_plans.all()
-        serializer = WorkoutPlanSerializer(workout_plans, many=True)
-        return Response(serializer.data)
+        workout_plans = client.subscription_plan.workout_plans.order_by("id")
+        return self.paginate_response(request, workout_plans, WorkoutPlanSerializer)
 
 
 class WorkoutPlanRunAPI(APIView):
@@ -58,7 +58,7 @@ class WorkoutPlanRunAPI(APIView):
         if not workout_plan_run:
             return Response(
                 {"detail": "No active workout plan run."},
-                status=status.HTTP_204_NO_CONTENT,
+                status=status.HTTP_404_NOT_FOUND,
             )
         serializer = WorkoutPlanRunSerializer(workout_plan_run)
         return Response(serializer.data)
@@ -73,7 +73,7 @@ class WorkoutPlanRunAPI(APIView):
             client.save(update_fields=["active_workout_plan"])
             return Response(
                 {"detail": "No active workout plan run."},
-                status=status.HTTP_204_NO_CONTENT,
+                status=status.HTTP_404_NOT_FOUND,
             )
 
         is_active = request.data.get("is_active", None)
@@ -91,7 +91,7 @@ class WorkoutPlanRunAPI(APIView):
             return Response({"message": "Workout plan run updated."}, status=status.HTTP_200_OK)
         logger.info(f">>> WorkoutPlanRunAPI PATCH INVALID data: {request.data}")
 
-        return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class WorkoutDayDetailedLogAPI(APIView):
@@ -109,7 +109,7 @@ class WorkoutDayDetailedLogAPI(APIView):
             workout_day_log.completed = completed
             workout_day_log.save(update_fields=["completed"])
             return Response({"message": "Workout day log updated."}, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class WorkoutItemDetailedLogAPI(APIView):
@@ -127,7 +127,7 @@ class WorkoutItemDetailedLogAPI(APIView):
             workout_item_log.completed = completed
             workout_item_log.save(update_fields=["completed"])
             return Response({"message": "Workout item log updated."}, status=status.HTTP_200_OK)
-        return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
+        return Response({"detail": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 @api_view(["PATCH"])
@@ -140,7 +140,7 @@ def update_set_log(request: Request, pk: int):
         workout_set_log.actual_amount = actual_amount
         workout_set_log.save(update_fields=["actual_amount"])
         return Response({"message": "Workout set log updated."}, status=status.HTTP_200_OK)
-    return Response({"error": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
+    return Response({"detail": "Invalid data."}, status=status.HTTP_400_BAD_REQUEST)
 
 
 def get_active_workout_plan_run(client: ClientProfile) -> WorkoutPlanRun | None:

@@ -1,15 +1,14 @@
 from rest_framework import permissions
-from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from gymApi.serializers import GymSerializer
 from gymApp.models import Gym
 
+from .pagination import PaginatedAPIView
 
-class GymListAPI(APIView):
+
+class GymListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        gyms = Gym.objects.all()
-        serializer = GymSerializer(gyms, many=True)
-        return Response(serializer.data)
+        gyms = Gym.objects.order_by("id")
+        return self.paginate_response(request, gyms, GymSerializer)
