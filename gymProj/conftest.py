@@ -60,6 +60,43 @@ def authenticated_api_client(api_client: APIClient, user: User) -> APIClient:
 
 
 @pytest.fixture
+def make_subscription_exercise(db) -> Callable[[SubscriptionPlan | None], Exercise]:
+    """Build an exercise connected to a workout plan and, optionally, a subscription."""
+
+    def _create(subscription_plan: SubscriptionPlan | None = None) -> Exercise:
+        difficulty = DifficultyLevel.objects.create(name="Easy")
+        exercise_type = ExerciseType.objects.create(name="Strength")
+        exercise = Exercise.objects.create(
+            name="Test exercise",
+            description="desc",
+            metabolic_equivalent=1.0,
+            video=SimpleUploadedFile("v.mp4", b"video"),
+            thumbnail=SimpleUploadedFile("t.jpg", b"thumb"),
+            difficulty_level=difficulty,
+            amount_unit="reps",
+            exercise_type=exercise_type,
+        )
+        plan = WorkoutPlan.objects.create(
+            name="Test plan",
+            description="desc",
+            difficulty_level=difficulty,
+        )
+        day = WorkoutDay.objects.create(workout_plan=plan, day_number=1)
+        WorkoutItem.objects.create(
+            workout_day=day,
+            exercise=exercise,
+            amount=10,
+            sets=3,
+            order=1,
+        )
+        if subscription_plan is not None:
+            subscription_plan.workout_plans.add(plan)
+        return exercise
+
+    return _create
+
+
+@pytest.fixture
 def make_workout_set_log(db) -> Callable[[ClientProfile], WorkoutSetLog]:
     """Build a minimal workout log chain for the given client."""
 
