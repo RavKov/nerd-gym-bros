@@ -14,6 +14,7 @@ from rest_framework.views import APIView
 from gymApi.serializers import SubscriptionPlanSerializer, SubscriptionSerializer
 from gymApp.models import ClientProfile, Subscription, SubscriptionPayment, SubscriptionPlan
 
+from .pagination import PaginatedAPIView
 from .workouts import get_active_workout_plan_run
 
 logger = logging.getLogger(__name__)
@@ -70,13 +71,12 @@ def _get_stripe_subscription_id_from_invoice(invoice: dict) -> str | None:
     return None
 
 
-class SubscriptionPlanListAPI(APIView):
+class SubscriptionPlanListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
         subscription_plans = SubscriptionPlan.objects.all()
-        serializer = SubscriptionPlanSerializer(subscription_plans, many=True)
-        return Response(serializer.data)
+        return self.paginate_response(request, subscription_plans, SubscriptionPlanSerializer)
 
 
 class SubscriptionPlanChooseAPI(APIView):
