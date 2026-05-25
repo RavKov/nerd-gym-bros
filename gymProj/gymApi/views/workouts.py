@@ -45,7 +45,7 @@ class WorkoutPlanListAPI(PaginatedAPIView):
             return self.paginate_response(
                 request, WorkoutPlan.objects.none(), WorkoutPlanSerializer
             )
-        workout_plans = client.subscription_plan.workout_plans.all()
+        workout_plans = client.subscription_plan.workout_plans.order_by("id")
         return self.paginate_response(request, workout_plans, WorkoutPlanSerializer)
 
 

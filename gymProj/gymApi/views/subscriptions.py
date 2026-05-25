@@ -75,7 +75,7 @@ class SubscriptionPlanListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request: Request):
-        subscription_plans = SubscriptionPlan.objects.all()
+        subscription_plans = SubscriptionPlan.objects.order_by("id")
         return self.paginate_response(request, subscription_plans, SubscriptionPlanSerializer)
 
 

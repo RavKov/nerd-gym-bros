@@ -10,5 +10,5 @@ class EquipmentListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        equipments = Equipment.objects.all()
+        equipments = Equipment.objects.order_by("id")
         return self.paginate_response(request, equipments, EquipmentSerializer)

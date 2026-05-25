@@ -10,5 +10,5 @@ class GymListAPI(PaginatedAPIView):
     permission_classes = [permissions.IsAuthenticated]
 
     def get(self, request):
-        gyms = Gym.objects.all()
+        gyms = Gym.objects.order_by("id")
         return self.paginate_response(request, gyms, GymSerializer)

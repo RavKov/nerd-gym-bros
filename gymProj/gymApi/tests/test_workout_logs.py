@@ -103,6 +103,7 @@ def test_workout_plan_list_returns_paginated_results(
 @pytest.mark.django_db
 def test_workout_plan_run_get_returns_404_without_active_run(
     authenticated_api_client: APIClient,
+    client_profile,
 ):
     response = authenticated_api_client.get("/api/me/workout_plan_run/")
 

@@ -18,9 +18,13 @@ class ExerciseListAPI(PaginatedAPIView):
         if not client.subscription_plan:
             return self.paginate_response(request, Exercise.objects.none(), ExerciseSerializer)
 
-        exercises = Exercise.objects.filter(
-            workoutitem__workout_day__workout_plan__subscriptionplan=client.subscription_plan
-        ).distinct()
+        exercises = (
+            Exercise.objects.filter(
+                workoutitem__workout_day__workout_plan__subscriptionplan=client.subscription_plan
+            )
+            .distinct()
+            .order_by("id")
+        )
 
         return self.paginate_response(request, exercises, ExerciseSerializer)
 
