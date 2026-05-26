@@ -7,6 +7,7 @@ import os
 from .base import *  # noqa: F403
 
 DEBUG = True
+EMAIL_BACKEND = os.getenv("EMAIL_BACKEND", "django.core.mail.backends.console.EmailBackend")
 
 # Dev-only fallback; override via DJANGO_SECRET_KEY in .env for local teams.
 SECRET_KEY = os.getenv(
