@@ -61,6 +61,14 @@ See `.env.example` for the full list, including database and security-related se
 - Production switches to SMTP and validates the required mail settings on startup.
 - `DEFAULT_FROM_EMAIL` and `SERVER_EMAIL` are configurable through environment variables, which keeps outbound email identity consistent across the API and staff panel.
 
+## App Server and Static Files
+
+- Development still uses Django `runserver` inside Docker for convenience.
+- Production uses `gunicorn` with `gymProj.wsgi:application`.
+- `collectstatic` runs in the container entrypoint by default and writes assets to `STATIC_ROOT` (`gymProj/staticfiles` inside the container by default, configurable with `DJANGO_STATIC_ROOT`).
+- Production enables WhiteNoise with compressed manifest storage so the container can serve collected static assets without an extra static server in the first deployment version.
+- Gunicorn behavior can be tuned with `PORT`, `GUNICORN_WORKERS`, `GUNICORN_THREADS`, and `GUNICORN_TIMEOUT`.
+
 ## API Documentation
 
 The repository exposes generated OpenAPI docs:
