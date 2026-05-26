@@ -6,7 +6,6 @@ from gymApi.auth_views import (
     ThrottledTokenRefreshView,
 )
 
-# TODO - ADD me TO URLS RELATED TO CLIENT IN APP
 app_name = "gymApi"
 
 urlpatterns = [
@@ -68,10 +67,17 @@ urlpatterns = [
         views.WorkoutPlanChooseAPI.as_view(),
         name="workout_plan_choose_api",
     ),
-    # path("create_payment_intent/", views.CreatePaymentIntentAPI.as_view()),
-    path("create_subscription_sheet/", views.CreateSubscriptionSheetAPI.as_view()),
-    path("stripe_webhook/", views.stripe_webhook),
-    path("cancel_subscription/", views.CancelSubscriptionAPI.as_view()),
+    path(
+        "create_subscription_sheet/",
+        views.CreateSubscriptionSheetAPI.as_view(),
+        name="create_subscription_sheet_api",
+    ),
+    path("stripe_webhook/", views.stripe_webhook, name="stripe_webhook_api"),
+    path(
+        "cancel_subscription/",
+        views.CancelSubscriptionAPI.as_view(),
+        name="cancel_subscription_api",
+    ),
     path("create_bug_report/", views.BugReportAPI.as_view(), name="bug_report_create_api"),
     path(
         "create_feature_request/",
