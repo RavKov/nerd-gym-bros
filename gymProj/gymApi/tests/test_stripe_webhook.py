@@ -1,12 +1,14 @@
 from unittest.mock import patch
 
 import pytest
+from django.test import override_settings
 from rest_framework.test import APIClient
 
-from gymApp.models import Subscription, SubscriptionPayment
+from gymApp.models import Subscription, SubscriptionPayment, SubscriptionPlan
 
 
 @pytest.mark.django_db
+@override_settings(STRIPE_WEBHOOK_SECRET="whsec_test")
 @patch("gymApi.views.stripe.Webhook.construct_event")
 def test_stripe_webhook_updates_subscription_status(
     mock_construct_event, user, api_client: APIClient
@@ -51,6 +53,7 @@ def test_stripe_webhook_updates_subscription_status(
 
 
 @pytest.mark.django_db
+@override_settings(STRIPE_WEBHOOK_SECRET="whsec_test")
 @patch("gymApi.views.stripe.Webhook.construct_event")
 def test_stripe_webhook_creates_subscription_payment(
     mock_construct_event, user, api_client: APIClient
@@ -88,3 +91,112 @@ def test_stripe_webhook_creates_subscription_payment(
     assert payment.subscription_id == subscription.id
     assert payment.amount_paid == 1999
     assert payment.currency == "usd"
+
+
+@pytest.mark.django_db
+@override_settings(STRIPE_WEBHOOK_SECRET="whsec_test")
+@patch("gymApi.views.stripe.Webhook.construct_event")
+def test_stripe_webhook_assigns_matching_subscription_plan_after_invoice_paid(
+    mock_construct_event,
+    user,
+    client_profile,
+    api_client: APIClient,
+):
+    paid_plan = SubscriptionPlan.objects.create(
+        name="Paid Plan",
+        price=19.99,
+        stripe_price_id="price_123",
+        features="Premium access",
+    )
+    subscription = Subscription.objects.create(
+        user=user,
+        stripe_customer_id="cus_123",
+        stripe_subscription_id="sub_123",
+        price_id=paid_plan.stripe_price_id,
+        status="active",
+    )
+    mock_construct_event.return_value = {
+        "type": "invoice.paid",
+        "data": {
+            "object": {
+                "id": "in_124",
+                "subscription": subscription.stripe_subscription_id,
+                "amount_paid": 1999,
+                "currency": "usd",
+                "created": 1_710_000_000,
+            }
+        },
+    }
+
+    response = api_client.post(
+        "/api/stripe_webhook/",
+        data=b"{}",
+        content_type="application/json",
+        HTTP_STRIPE_SIGNATURE="sig",
+    )
+
+    client_profile.refresh_from_db()
+
+    assert response.status_code == 200
+    assert client_profile.subscription_plan_id == paid_plan.id
+
+
+@pytest.mark.django_db
+@override_settings(STRIPE_WEBHOOK_SECRET="whsec_test")
+@patch("gymApi.views.stripe.Webhook.construct_event")
+def test_stripe_webhook_clears_client_plan_for_canceled_subscription(
+    mock_construct_event,
+    user,
+    client_profile,
+    api_client: APIClient,
+):
+    paid_plan = SubscriptionPlan.objects.create(
+        name="Paid Plan",
+        price=19.99,
+        stripe_price_id="price_123",
+        features="Premium access",
+    )
+    client_profile.subscription_plan = paid_plan
+    client_profile.save(update_fields=["subscription_plan"])
+    subscription = Subscription.objects.create(
+        user=user,
+        stripe_customer_id="cus_123",
+        stripe_subscription_id="sub_123",
+        price_id=paid_plan.stripe_price_id,
+        status="active",
+    )
+    mock_construct_event.return_value = {
+        "type": "customer.subscription.updated",
+        "data": {
+            "object": {
+                "id": subscription.stripe_subscription_id,
+                "status": "canceled",
+                "cancel_at_period_end": True,
+                "canceled_at": 1_710_000_000,
+                "ended_at": 1_710_000_100,
+                "items": {
+                    "data": [
+                        {
+                            "created": 1,
+                            "current_period_start": 1_709_000_000,
+                            "current_period_end": 1_710_000_000,
+                        }
+                    ]
+                },
+            }
+        },
+    }
+
+    response = api_client.post(
+        "/api/stripe_webhook/",
+        data=b"{}",
+        content_type="application/json",
+        HTTP_STRIPE_SIGNATURE="sig",
+    )
+
+    subscription.refresh_from_db()
+    client_profile.refresh_from_db()
+
+    assert response.status_code == 200
+    assert subscription.status == "canceled"
+    assert client_profile.subscription_plan is None
