@@ -47,7 +47,7 @@ def _send_verification_email(to_email: str, code: str) -> None:
         send_mail(
             subject="Verify your email",
             message=f"Your verification code is: {code}\nIt expires in 15 minutes.",
-            from_email=getattr(settings, "DEFAULT_FROM_EMAIL", "no-reply@gymapp.local"),
+            from_email=settings.DEFAULT_FROM_EMAIL,
             recipient_list=[to_email],
             fail_silently=False,
         )

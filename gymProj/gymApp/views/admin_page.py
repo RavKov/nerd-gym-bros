@@ -481,7 +481,7 @@ class StaffCreateView(LoginRequiredMixin, UserPassesTestMixin, CreateView):
                     "A staff account was created for you. "
                     "Contact your administrator to receive login credentials securely.\n"
                 ),
-                from_email=getattr(settings, "DEFAULT_FROM_EMAIL", "admin@gymapp.com"),
+                from_email=settings.DEFAULT_FROM_EMAIL,
                 recipient_list=[user.email],
                 fail_silently=False,
             )

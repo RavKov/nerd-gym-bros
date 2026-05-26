@@ -8,12 +8,25 @@ from pathlib import Path
 
 from dotenv import find_dotenv, load_dotenv
 
+from .utils import env_bool, env_int
+
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
 load_dotenv(find_dotenv())
 
 STRIPE_SECRET_KEY = os.getenv("STRIPE_API_KEY", "")
 STRIPE_PUBLISHABLE_KEY = os.getenv("STRIPE_PUBLISHABLE_KEY", "")
 STRIPE_WEBHOOK_SECRET = os.getenv("STRIPE_WEBHOOK_SECRET", "")
+
+DEFAULT_FROM_EMAIL = os.getenv("DJANGO_DEFAULT_FROM_EMAIL", "Nerd Gym Bros <no-reply@localhost>")
+SERVER_EMAIL = os.getenv("DJANGO_SERVER_EMAIL", DEFAULT_FROM_EMAIL)
+EMAIL_SUBJECT_PREFIX = os.getenv("DJANGO_EMAIL_SUBJECT_PREFIX", "[Nerd Gym Bros] ")
+EMAIL_HOST = os.getenv("EMAIL_HOST", "localhost")
+EMAIL_PORT = env_int("EMAIL_PORT", 25)
+EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = env_bool("EMAIL_USE_TLS", False)
+EMAIL_USE_SSL = env_bool("EMAIL_USE_SSL", False)
+EMAIL_TIMEOUT = env_int("EMAIL_TIMEOUT", 10)
 
 INSTALLED_APPS = [
     "django.contrib.admin",
