@@ -6,6 +6,7 @@ import os
 
 from django.core.exceptions import ImproperlyConfigured
 
+from . import base as base_settings
 from .base import *  # noqa: F403
 from .utils import env_bool, env_int, require_env
 
@@ -48,6 +49,18 @@ if EMAIL_USE_TLS and EMAIL_USE_SSL:
 
 if EMAIL_HOST_USER and not EMAIL_HOST_PASSWORD:
     raise ImproperlyConfigured("EMAIL_HOST_PASSWORD must be set when EMAIL_HOST_USER is provided.")
+
+MIDDLEWARE = [
+    base_settings.MIDDLEWARE[0],
+    "whitenoise.middleware.WhiteNoiseMiddleware",
+    *base_settings.MIDDLEWARE[1:],
+]
+STORAGES = {
+    **base_settings.STORAGES,
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
 
 SECURE_SSL_REDIRECT = os.getenv("DJANGO_SECURE_SSL_REDIRECT", "true").lower() == "true"
 SESSION_COOKIE_SECURE = True

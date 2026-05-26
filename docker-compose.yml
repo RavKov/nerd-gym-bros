@@ -27,6 +27,7 @@ services:
         condition: service_healthy
     environment:
       DJANGO_ENV: development
+      DJANGO_COLLECTSTATIC: "false"
       DJANGO_SECRET_KEY: ${DJANGO_SECRET_KEY:-django-insecure-dev-only-do-not-use-in-production}
       DB_ENGINE: django.db.backends.postgresql
       DB_NAME: nerd_gym_bros
