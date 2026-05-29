@@ -19,7 +19,7 @@ function applyFilters(tableId, searchableColumnClasses, filterIdToTd) {
     filterIdToTd.forEach((tdClass, filterId) => {
         filterIdToSelectedValue.set(filterId, normalize(document.getElementById(filterId).value));
     });
-    
+
     const rows = document.querySelectorAll(`#${tableId} tbody tr`);
 
     rows.forEach(row => {

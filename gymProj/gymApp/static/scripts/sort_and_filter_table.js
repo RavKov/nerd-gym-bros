@@ -105,11 +105,11 @@ function applyFilters(tableId, searchableColumnClasses, filterIdToTd) {
 
         const show = matchesSearch && matchesFilters;
         row.style.display = show ? '' : 'none';
-        
+
 
     })
     applyBootstrapStriping(tableId);
-    
+
 }
 
 const setupFiltersAndSearch = (tableId, filterIdToTd, searchableColumnClasses, searchInputId) => {
@@ -131,4 +131,3 @@ const setupFiltersAndSearch = (tableId, filterIdToTd, searchableColumnClasses, s
     searchInput.addEventListener('input', applyFinalFilters);
     applyFinalFilters();
 };
-

@@ -34,7 +34,7 @@
                 <form class="ms-2" action="{% url 'workout_day_update' workout_day.pk %}" method="get">
                     <button type="submit" class="btn btn-secondary btn-sm">{% bs_icon "pencil" %}</button>
                 </form>
-                <span class="ms-3">Day 
+                <span class="ms-3">Day
                     <span class="day_number_value">{{ workout_day.day_number }}</span>. [{{ workout_day.description }}]</span>
             </li>
         {% endfor %}

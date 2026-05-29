@@ -34,5 +34,6 @@ COPY . /app/
 EXPOSE 8000
 
 RUN chmod +x /app/docker-entrypoint.sh
+RUN chmod +x /app/refresh_db.sh
 
 CMD ["/app/docker-entrypoint.sh"]

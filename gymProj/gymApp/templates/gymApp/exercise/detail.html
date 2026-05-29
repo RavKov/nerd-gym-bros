@@ -25,7 +25,7 @@
             <td>
                 <ul class="list-unstyled">
                 {% for equipment in exercise.equipments.all %}
-                    
+
                     <li>{{ equipment.name }}</li>
                 {% empty %}
                     <p>No equipment required.</p>
@@ -47,7 +47,7 @@
     </table>
 
     </table>
-    
+
     <a href="{% url 'exercise_list' %}" class="btn btn-secondary">Go back to list</a>
     <a href="{% url 'exercise_update' exercise.pk %}" class="btn btn-warning">Edit</a>
     <a href="{% url 'exercise_delete' exercise.pk %}" class="btn btn-danger">Delete</a>

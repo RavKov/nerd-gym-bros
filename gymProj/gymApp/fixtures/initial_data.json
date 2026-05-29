@@ -39,7 +39,7 @@
         "difficulty_level_id": 1,
         "thumbnail": "thumbnails/Stock-photo.png",
         "video": "videos/Stock-video.mp4"
-    }}, 
+    }},
     {"model": "gymApp.exercise", "pk": 3, "fields": {
         "name": "Plank",
         "description": "An isometric core strength exercise.",
@@ -78,7 +78,7 @@
         "difficulty_level_id": 2,
         "thumbnail": "thumbnails/Stock-photo.png",
         "video": "videos/Stock-video.mp4"
-    }}, 
+    }},
     {"model": "gymApp.exercise", "pk": 6, "fields": {
         "name": "Lunges",
         "description": "A lower body exercise that targets the thighs and glutes.",

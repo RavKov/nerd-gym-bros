@@ -24,7 +24,7 @@ Backend and staff/admin panel for the **Integrated Gym Training Management Syste
 
 1. Create local environment variables: `cp .env.example .env`
 2. Start the application stack: `docker compose up --build`
-3. Load migrations and seed data: `docker compose exec web bash -lc "/app/refresh_db.sh"`
+3. Load migrations and seed data: `docker compose exec web bash -lc "/app/refresh_db.sh"` (warning: this is mostly mock data for demo presentation)
 4. Open the staff/admin interface at [http://127.0.0.1:8000](http://127.0.0.1:8000)
 
 Development-only default admin credentials:
@@ -96,6 +96,6 @@ More detail is available in `docs/ARCHITECTURE.md`.
 
 ## Demo
 
-Project walkthrough video:
+Project walkthrough video (in Polish language):
 
 [https://www.youtube.com/watch?v=a2BepgsEpck](https://www.youtube.com/watch?v=a2BepgsEpck)

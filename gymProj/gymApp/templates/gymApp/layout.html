@@ -16,13 +16,13 @@
     <body>
 
     <div class="container-fluid layout d-flex flex-row p-0">
-      
+
       <aside class="sidebar bg-primary" id="sidebar">
 
         <a class="d-block h3 pt-3 ps-3 link-light link-underline-opacity-0" href="{% url 'home'%}">Dashboard</a>
 
         <ul class="list-group mt-4" style="white-space: nowrap;" >
-          
+
           {% if perms.gymApp.view_exercise %}
             <li class="d-flex  btn-group" >
               <a href="{% url 'exercise_list' %}" class="d-block text-start btn btn-primary rounded-0 flex-grow-1 "> {% bs_icon 'person-walking' size='1.25em'  %} Exercises</a>
@@ -38,7 +38,7 @@
               </ul>
             </li>
           {% endif %}
-          
+
           {% if perms.gymApp.view_workoutplan %}
             <li class="d-flex  btn-group">
               <a href="{% url 'workout_plan_list' %}" class="d-block text-start btn btn-primary rounded-0 flex-grow-1 "> {% bs_icon 'list-check' size='1.25em'  %} Workout Plans</a>
@@ -140,11 +140,11 @@
           <form method="post" action="{% url 'logout' %}">
               {% csrf_token %}
               <button type="submit" class="btn btn-outline-primary">Logout</button>
-          </form> 
+          </form>
           </div>
         </nav>
         <main class='p-4'>
-            {% block content %}{% endblock %}        
+            {% block content %}{% endblock %}
         </main>
       </div>
 

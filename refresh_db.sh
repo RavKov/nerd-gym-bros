@@ -8,7 +8,7 @@ rm db.sqlite3
 # cd ..
 # cp ./0002_db_objects.py ./gymProj/gymApp/migrations/0002_db_objects.py
 # cd gymProj
-python3 manage.py migrate 
+python3 manage.py migrate
 python3 manage.py loaddata dictionaries.json
 python3 manage.py loaddata exercises.json
 python3 manage.py loaddata workout_plans.json
